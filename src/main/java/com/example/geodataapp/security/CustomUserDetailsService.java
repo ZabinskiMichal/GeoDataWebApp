@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+//ta klasa jest odpowiedzilana za przydzielanie roli dla danego usera
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -32,10 +34,18 @@ public class CustomUserDetailsService implements UserDetailsService {
         AppUser user = userRepository.findByEmail(username).orElseThrow(
                 () -> new UsernameNotFoundException(username + " not found"));
 
+        System.out.println(user.toString());
+
+        System.out.println("rola usera: " + user.getRoles());
+
         return new User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
+    //sprawdzic jeszcze klase roles i relacje z userem
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles){
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        List<GrantedAuthority> collect = roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+//        System.out.println("role: " + collect);
+        return collect;
+
     }
 }

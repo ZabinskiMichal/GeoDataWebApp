@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/geodataapp/auth")
@@ -66,10 +67,13 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
 
+
         //narazie kazdy bedzie userem
         //kazda rola musi byc najpierw dostępna w tabeli roles
         Role roles = roleRepository.findByName("USER").get();
-        user.setRoles(Collections.singletonList(roles));
+
+//        user.setRoles(Collections.singletonList(roles));
+        user.setRoles(List.of(roles));
 
         userRepository.save(user);
 
