@@ -42,11 +42,10 @@ public class JWTGenerator {
 
     public boolean validateToken(String token){
         try {
-            Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJwt(token);
-            return true;
+            Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJws(token);
+            return true; 
         }catch (Exception ex){
-            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");
+            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect, token niepoprawny");
         }
-
     }
 }
