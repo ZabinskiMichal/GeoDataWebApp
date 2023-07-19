@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
-//@CrossOrigin("http://localhost:3000")
-@CrossOrigin("localhost:3000")
+//@CrossOrigin("localhost:3000")
 public class SecurityConfig {
 
     private JwtAuthEntryPoint authEntryPoint;

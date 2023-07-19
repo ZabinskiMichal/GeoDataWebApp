@@ -22,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/geodataapp/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
@@ -47,7 +48,6 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
 
