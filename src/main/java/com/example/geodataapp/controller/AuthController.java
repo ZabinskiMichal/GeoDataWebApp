@@ -16,15 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.List;
 
 @RestController
-@RequestMapping("geodataapp/auth")
+@RequestMapping("/geodataapp/auth")
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
@@ -50,6 +47,7 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
 
@@ -66,10 +64,13 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
 
+
         //narazie kazdy bedzie userem
         //kazda rola musi byc najpierw dostępna w tabeli roles
         Role roles = roleRepository.findByName("USER").get();
-        user.setRoles(Collections.singletonList(roles));
+
+//        user.setRoles(Collections.singletonList(roles));
+        user.setRoles(List.of(roles));
 
         userRepository.save(user);
 
