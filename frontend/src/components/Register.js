@@ -14,22 +14,32 @@ const REGISTER_URL = "/auth/register";
 
 export default function Register() {
 
+
+    // FIRSTNAME
+    const[firstname, setFirstName] = useState('');
+
+
+    // LASTANAME
+    const[lastname, setLastName] = useState('');
+
+
+    // EMAIL
     const emailRef = useRef();
     const errRef = useRef();
-
-
     const [email, setEmail] = useState('');
-
     const [validEmail, setValidEmail] = useState(false); //sprawdzenie czy email jest sotepny
     const [emailFocus, setEmailFocus] = useState(false); 
 
+
+    // PASSWORD
     const[password, setpassword] = useState('');
     const[validpassword, setValidpassword] = useState(false);
     const[passwordFocus, setpasswordFocus] = useState(false);
-
     const[matchpassword, setMatchpassword] = useState('');
+    
     const[validMatch, setValidMatch] = useState(false);
     const[matchFocus, setMatchFocus] = useState(false);
+
 
     const[errMsg, setErrMsg] = useState('');
     const[success, setSuccess] = useState(false);
@@ -83,7 +93,7 @@ export default function Register() {
         try{
             // przeslanie requesta do backendu
             const response = await axios.post(REGISTER_URL, 
-                JSON.stringify({email, password}),
+                JSON.stringify({firstname, lastname, email, password}),
                 {
                     headers: { 'Content-Type': 'application/json'},
                     // withCredentials: true
@@ -102,7 +112,7 @@ export default function Register() {
                 setErrMsg("Brak odpowiedzi serwera");
             
             }else if (err.response?.status == 400){
-                setErrMsg("email is taken")
+                setErrMsg("Email zajęty")
             }else{
                 setErrMsg("Rejestracja nie powiodla sie")
             }
@@ -133,8 +143,73 @@ export default function Register() {
         <p ref={errRef} className={errMsg ? "errmsg" : 
         "offscreen"} aria-live="assetive" > {errMsg} </p>
 
-        <h1>Register</h1>
+        <h1>Rejestracja</h1>
         <form onSubmit={handleSubmit}>
+
+            {/* FIRSTNAME */}
+
+            <label htmlFor="firstname">
+                Imie:
+                
+                {/* <span className={validEmail ? "valid" : "hide"}>
+                    <FontAwesomeIcon icon={faCheck} />
+                </span> */}
+
+                {/* <span className={validEmail || !email ? "hide" : "invalid"} >
+                    <FontAwesomeIcon icon={faTimes} />
+                </span> */}
+                
+            </label>
+
+
+            <input
+        
+                type="text"
+                id="firstname"
+                // ref={emailRef}
+                autoComplete="off"
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+                // aria-invalid={validEmail ? "false" : "true"} //if falidation passed, "true" is set
+                // aria-describedby="uidnote"
+                // onFocus={() => setEmailFocus(true)}
+                // onBlur={() => setEmailFocus(false)} //when ew leafe that filed
+            
+            />
+
+            {/* LASTNAME */}
+
+            <label htmlFor="lastname">
+                Nazwisko:
+                
+                {/* <span className={validEmail ? "valid" : "hide"}>
+                    <FontAwesomeIcon icon={faCheck} />
+                </span> */}
+
+                {/* <span className={validEmail || !email ? "hide" : "invalid"} >
+                    <FontAwesomeIcon icon={faTimes} />
+                </span> */}
+                
+            </label>
+
+
+            <input
+        
+                type="text"
+                id="lastname"
+                // ref={emailRef}
+                autoComplete="off"
+                onChange={(e) => setLastName(e.target.value)}
+                required
+                // aria-invalid={validEmail ? "false" : "true"} //if falidation passed, "true" is set
+                // aria-describedby="uidnote"
+                // onFocus={() => setEmailFocus(true)}
+                // onBlur={() => setEmailFocus(false)} //when ew leafe that filed
+            
+            />
+
+
+            {/* EMAIL */}
 
             <label htmlFor="email">
                 Email:
@@ -171,8 +246,12 @@ export default function Register() {
                 Litera, liczba, podkreselnie.
             </p>
 
+            {/* PASSWORD */}
+
+
+
             <label htmlFor="password">
-                Passowrd:
+                Hasło:
                 <span className = {validpassword ? "valid" : "hide"}>
                     <FontAwesomeIcon icon={faCheck} />
                 </span>
@@ -205,7 +284,7 @@ export default function Register() {
             </p>
 
             <label htmlFor="confirm_password">
-                Potwierdz haslo:
+                Potwierdź hasło:
                 <span className={validMatch && matchpassword ? "valid" : "hide"}>
                     <FontAwesomeIcon icon={faCheck} />
 
