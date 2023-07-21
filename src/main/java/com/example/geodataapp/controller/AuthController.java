@@ -88,6 +88,11 @@ public class AuthController {
 
         String token = jwtGenerator.generateToken(authentication);
 
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        //temporary list of Roles
+//        List<Role> roles = List.of(new Role(1L, "USER"));
+        List<String> roles = List.of("USER");
+
+//        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDTO(token, roles), HttpStatus.OK);
     }
 }

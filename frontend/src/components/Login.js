@@ -1,22 +1,32 @@
-import { useRef, useState, useEffect, useContext} from 'react';
-import AuthContext from '../context/Authprovider';
+import { useRef, useState, useEffect} from 'react';
+import useAuth from '../hooks/useAuth';
 import axios from "../api/axios";
+import { Link, useNavigate, useLocation} from 'react-router-dom';
 
 const LOGIN_URL = "/auth/login";
 
 
-
 export default function Login() {
 
-    const { setAuth } = useContext(AuthContext);
+    // ten globalny auth bedziemy wykorzystywali tez w innych czesciach aplikcaji
+    const { setAuth } = useAuth();
+
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    //tutaj co zrobic w przypadku cofniecia strony
+    const from = location.state?.from?.pathname || "/";
+
+
+    
     const emailRef = useRef();
     const errRef = useRef();
-
 
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
     const[errMsg, setErrMsg] = useState('');
-    const[success, setSuccess] = useState(false);
+
 
     useEffect(() => {
         emailRef.current.focus();
@@ -39,26 +49,33 @@ export default function Login() {
                     // withCredentials: true
                 }
             );
+
             console.log(JSON.stringify(response?.data));
             // console.log(JSON.stringify(response));
 
 
             // tutj przechowamy nasz token
             const accessToken = response?.data?.accessToken;
+            console.log(accessToken)
+
+            const roles = response?.data?.roles;
+
             
-            
-            // tutaj tez jest mozliwosc przechwucenia roli, to byla by tablica
-            
-            // const roles = response?.data?.roles;
+
+            console.log(roles);
 
             // setAuth({email, password, roles, accessToken}); //jest to przechowywane w globalnym kontekscie
-            setAuth({email, password, accessToken}); //jest to przechowywane w globalnym kontekscie
-
-
+            setAuth({email, password, roles, accessToken}); //jest to przechowywane w globalnym kontekscie
 
             setEmail('');
             setPassword('');
-            setSuccess(true);
+
+            //aktualnie po zalogowaniu, zostaniemy przeniesieni do miesca w ktorym bylismy wczensiej,
+            // jednak nie uzyskalizmy do niego dostepu ze wzgledu na brak zalogowania
+
+            //tutaj bedziemy definiowali co ma byc wzrocone po poprawnym zalogowaniu
+            navigate('/User', { replace: true });
+
 
         } catch (err) {
 
@@ -81,16 +98,7 @@ export default function Login() {
 
 
   return (
-    <>
-    {success ? (
-        <section>
-            <h1>Zalogowano!</h1>
-            <br />
-            <p>
-                <a href='#'>Przejdz na strone glowna</a>
-            </p>
-        </section>
-    ) : (
+
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
         
@@ -137,9 +145,6 @@ export default function Login() {
 
 
     </section>
-    )}
-    
-    </>
-
+  
   )
 }
