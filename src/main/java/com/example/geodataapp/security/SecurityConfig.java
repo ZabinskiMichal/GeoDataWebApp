@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/geodataapp/auth/**").permitAll()
+                .requestMatchers("/geodataapp/points/**").permitAll() //narazie dostepne dla wszystkich
                 .requestMatchers("/geodataapp/demo").hasAuthority("ADMIN")
 //                .requestMatchers("/geodataapp/auth/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
