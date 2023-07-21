@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from 'react'
 import { isValidInputTimeValue, setSelectionRange } from "@testing-library/user-event/dist/utils";
 import axios from "../api/axios";
+import { Link } from "react-router-dom";
 
 const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.(com|pl)$/i;
 const password_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -88,7 +89,6 @@ export default function Register() {
             return;
         }
 
-        // setSuccess(true);
 
         try{
             // przeslanie requesta do backendu
@@ -130,14 +130,15 @@ export default function Register() {
 
     <>
     {success ? (
-        <section>
+        <div className="userinput-container">
 
-   
-        <h1>Sukces!</h1>
-        <p>
-            <a href="#">Zaloguj się</a>
-        </p>
-        </section>
+            <section>
+                <h1>Rerejestrowano!</h1>
+                <p>
+                    <Link to="/login">Zaloguj się</Link>
+                </p>
+            </section>
+        </div>
     ) : (
     <section>
 
@@ -324,8 +325,7 @@ export default function Register() {
             <span className="line">
                 {/* potem trzeba odac tutaj opowiendni rout */}
 
-
-                <a href="#">Zaloguj się</a>
+                <Link to="/login">Zaloguj się</Link>
             </span>
         </p>
 

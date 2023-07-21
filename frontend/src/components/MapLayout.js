@@ -5,14 +5,15 @@ import { Icon, divIcon, point } from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from '../api/axios';
 import { useEffect, useState } from 'react';
-
+import { useMapEvents } from 'react-leaflet';
+import AddNewPoint from './AddNewPoint';
 
 
 
 export default function MapLayout() {
 
   const [marker, setMarker] = useState([]);
-  
+ 
   const loadPoints = async () => {
     try {
       const response = await axios.get('/points/all');
@@ -28,31 +29,9 @@ export default function MapLayout() {
 
 
   useEffect(() => {
-
     loadPoints();
   }, []);
 
-
-
-  // tymczasowe punkty
-
-  // const markery = [
-  //   {
-  //     geocode: [52.227995, 21.011908],
-  //     popUp: "Warszawa"
-  //   },
-
-  //   {
-  //     geocode: [50.054629, 19.928013],
-  //     popUp: "Kraków"
-  //   },
-
-  //   {
-  //     geocode: [50.314185, 18.688934],
-  //     popUp: "Gliwice"
-  //   },
-    
-  // ];
 
   const customIcon = new Icon({
     iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Map_marker_font_awesome.svg/1200px-Map_marker_font_awesome.svg.png",
@@ -69,8 +48,19 @@ export default function MapLayout() {
     });
   };
 
+
+  const LocationFinder = () => {
+    const map = useMapEvents({
+        click(e) {
+          console.log(e.latlng);
+        },
+    });
+    return null;
+  };
+
   
 
+  
 
   return (
 
@@ -86,16 +76,23 @@ export default function MapLayout() {
 
             />
 
+            <LocationFinder />
+
+
+      
+
             {/* łaczy punkty w klastry */}
             <MarkerClusterGroup
               chunkedLoading
               iconCreateFunction={createCustomClusterIcon}
             >
 
+
+            
             {marker.map(marker => (
               <Marker position={[marker.longitude, marker.latitude]} icon={customIcon}>
                 <Popup>
-                  {/* tutaj mozna kombinowac z htleem i dowolnym odstosowaniem */}
+                  {/* tutaj mozna kombinowac z htmlem i dowolnym odstosowaniem */}
                   <h3>{marker.title}</h3>
                     {
                       marker.description

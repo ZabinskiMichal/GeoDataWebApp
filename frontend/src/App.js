@@ -3,11 +3,11 @@ import Register from './components/Register';
 import Login from './components/Login';
 import { Routes, Route } from 'react-router-dom';
 import RequireAuth from './components/RequireAuth';
-import Layout from './components/Layout';
 import User from './components/User';
 import Admin from './components/Admin';
 import MapLayout from './components/MapLayout';
 import Missing from './components/Missing';
+import Home from './components/Home'
 
 // const ROLES = {
 //   "USER": 2001,
@@ -19,7 +19,7 @@ function App() {
 
     <Routes>
 
-      <Route path="/" element={<Layout />} /> 
+      <Route path="/" element={<Home />} /> 
 
 
         {/* routy dostepne dla kazdego */}
@@ -28,23 +28,19 @@ function App() {
         {/* <Route path="linkpage" element={<LinkPage />} /> */}
         {/* <Route path="unauthorized" element={<Unauthorized />} /> */}
 
-        <Route path='map' element={<MapLayout />} />
-
         {/* <Route path='/' element={<Home />} /> */}
 
-
-        {/* USER to 2001 */}
         <Route element={<RequireAuth allowedRoles={["USER"]}/>}>
           <Route path='user' element={<User/>} />
-          {/* mozna dodac tu wiecej sciezek */}
+          <Route path='map' element={<MapLayout />} />
         </Route>
       
+
       {/* to tablicy mozemy przekazac kilka elementow */}
         <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
           <Route path='admin' element={<Admin />} />
         </Route>
-
-        {/* rout, który zostanie wyswietlany w przypadku niepoprawego routa*/}
+        
         <Route path='*' element={<Missing />} />
 
 

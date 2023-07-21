@@ -140,8 +140,9 @@ export default function Login() {
         <p>
             Nie posiadasz konta? <br />
             <span className='line'>
+                <Link to="/register">Zarejestruj się</Link>
                 {/* tutaj trzeba bedzie odac route */}
-                <a href='#'>Zarejestruj się</a>
+                {/* <a href='#'>Zarejestruj się</a> */}
             </span>
         </p>
 
