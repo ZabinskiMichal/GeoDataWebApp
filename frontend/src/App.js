@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import User from './components/User';
 import Admin from './components/Admin';
 import MapLayout from './components/MapLayout';
+import Missing from './components/Missing';
 
 // const ROLES = {
 //   "USER": 2001,
@@ -17,7 +18,8 @@ function App() {
   return (
 
     <Routes>
-      <Route path="/" element={<Layout />}>
+
+      {/* <Route path="/" element={<Layout />}> */}
 
 
         {/* routy dostepne dla kazdego */}
@@ -25,6 +27,7 @@ function App() {
         <Route path="register" element={<Register />} />
         {/* <Route path="linkpage" element={<LinkPage />} /> */}
         {/* <Route path="unauthorized" element={<Unauthorized />} /> */}
+
         <Route path='map' element={<MapLayout />} />
 
         {/* <Route path='/' element={<Home />} /> */}
@@ -42,10 +45,10 @@ function App() {
         </Route>
 
         {/* rout, który zostanie wyswietlany w przypadku niepoprawego routa*/}
-        {/* <Route path='*' element={<Missing />} /> */}
+        <Route path='*' element={<Missing />} />
 
 
-      </Route>
+      {/* </Route> */}
     </Routes>
 
 
