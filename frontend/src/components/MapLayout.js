@@ -73,6 +73,10 @@ export default function MapLayout() {
 
 
   return (
+
+    <div className='mapContainer'>
+
+
     <MapContainer center={[52.1, 20.2]} zoom={7}>
 
         <TileLayer 
@@ -104,5 +108,8 @@ export default function MapLayout() {
 
         </MapContainer>
 
+
+        </div>
   )
+
 }

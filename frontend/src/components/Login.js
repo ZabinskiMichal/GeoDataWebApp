@@ -99,6 +99,8 @@ export default function Login() {
 
   return (
 
+    <div className='input-container'>
+
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
         
@@ -145,6 +147,8 @@ export default function Login() {
 
 
     </section>
+
+    </div>
   
   )
 }

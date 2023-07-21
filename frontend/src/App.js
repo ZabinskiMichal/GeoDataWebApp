@@ -19,7 +19,7 @@ function App() {
 
     <Routes>
 
-      {/* <Route path="/" element={<Layout />}> */}
+      <Route path="/" element={<Layout />} /> 
 
 
         {/* routy dostepne dla kazdego */}
@@ -48,7 +48,7 @@ function App() {
         <Route path='*' element={<Missing />} />
 
 
-      {/* </Route> */}
+
     </Routes>
 
 

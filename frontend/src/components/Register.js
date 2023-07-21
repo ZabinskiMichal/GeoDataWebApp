@@ -126,6 +126,8 @@ export default function Register() {
 
   return (
 
+    <div className='input-container'>
+
     <>
     {success ? (
         <section>
@@ -321,6 +323,8 @@ export default function Register() {
             Posiadasz juz konto? <br />
             <span className="line">
                 {/* potem trzeba odac tutaj opowiendni rout */}
+
+
                 <a href="#">Zaloguj się</a>
             </span>
         </p>
@@ -328,6 +332,8 @@ export default function Register() {
     </section>
     )}
     </>
+
+    </div>
   )
 }
 
