@@ -28,12 +28,17 @@ function App() {
         {/* <Route path="linkpage" element={<LinkPage />} /> */}
         {/* <Route path="unauthorized" element={<Unauthorized />} /> */}
 
+        <Route path='map' element={<MapLayout />} />
+
+
         {/* <Route path='/' element={<Home />} /> */}
 
         <Route element={<RequireAuth allowedRoles={["USER"]}/>}>
           <Route path='user' element={<User/>} />
-          <Route path='map' element={<MapLayout />} />
+          {/* <Route path='map' element={<MapLayout />} /> */}
         </Route>
+
+
       
 
       {/* to tablicy mozemy przekazac kilka elementow */}

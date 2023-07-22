@@ -1,18 +1,23 @@
 import React from 'react';
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon, divIcon, point } from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from '../api/axios';
 import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
 import AddNewPoint from './AddNewPoint';
+import { click } from '@testing-library/user-event/dist/click';
+import { setAppElement } from 'react-modal';
 
 
 
 export default function MapLayout() {
 
   const [marker, setMarker] = useState([]);
+
+  const [selectedPosition, setSelectedPosition] = useState([0,0]);
+
  
   const loadPoints = async () => {
     try {
@@ -52,16 +57,31 @@ export default function MapLayout() {
   const LocationFinder = () => {
     const map = useMapEvents({
         click(e) {
+          setSelectedPosition([
+            e.latlng.lat,
+            e.latlng.lng
+        ]);  
           console.log(e.latlng);
+          console.log(selectedPosition);
         },
-    });
-    return null;
+    })
+    // return null;
+    // <Marker position={e.latlng} icon={customIcon} /> 
+
+    return (
+      selectedPosition ? 
+          <Marker           
+          position={selectedPosition}
+          icon={customIcon}
+          // interactive={false} 
+          />
+      : null
+  )  
+    
   };
 
-  
 
   
-
   return (
 
     <div className='mapContainer'>
@@ -79,13 +99,14 @@ export default function MapLayout() {
             <LocationFinder />
 
 
-      
-
             {/* łaczy punkty w klastry */}
             <MarkerClusterGroup
               chunkedLoading
               iconCreateFunction={createCustomClusterIcon}
             >
+
+
+
 
 
             
@@ -95,7 +116,7 @@ export default function MapLayout() {
                   {/* tutaj mozna kombinowac z htmlem i dowolnym odstosowaniem */}
                   <h3>{marker.title}</h3>
                     {
-                      marker.description
+                      marker.description 
                     }
                 </Popup>
               </Marker>
