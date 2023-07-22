@@ -19,6 +19,7 @@ public class Point {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
     private Double longitude;
     private Double latitude;
     private String description;

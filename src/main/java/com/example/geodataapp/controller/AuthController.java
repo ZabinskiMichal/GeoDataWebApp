@@ -22,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/geodataapp/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
@@ -47,7 +48,6 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
 
@@ -88,6 +88,11 @@ public class AuthController {
 
         String token = jwtGenerator.generateToken(authentication);
 
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        //temporary list of Roles
+//        List<Role> roles = List.of(new Role(1L, "USER"));
+        List<String> roles = List.of("USER");
+
+//        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDTO(token, roles), HttpStatus.OK);
     }
 }

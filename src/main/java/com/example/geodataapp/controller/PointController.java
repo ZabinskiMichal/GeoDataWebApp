@@ -1,11 +1,8 @@
 package com.example.geodataapp.controller;
 
 import com.example.geodataapp.dto.PointDto;
-import com.example.geodataapp.model.Point;
 import com.example.geodataapp.service.PointServiceImpl;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("geodataapp/points")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PointController {
 
 
