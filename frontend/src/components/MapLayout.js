@@ -6,17 +6,25 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from '../api/axios';
 import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
-import AddNewPoint from './AddNewPoint';
-import { click } from '@testing-library/user-event/dist/click';
-import { setAppElement } from 'react-modal';
+import { faL } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
+
+
+const CREATE_POINT_URL = "/points/create";
 
 
 
 export default function MapLayout() {
 
+  const navigate = useNavigate();
+
+
   const [marker, setMarker] = useState([]);
 
-  const [selectedPosition, setSelectedPosition] = useState([0,0]);
+  // const [selectedPosition, setSelectedPosition] = useState([0,0]);
+  // const[title, setTitle] = useState('');
+  // const[description, setDescription] = useState('');
+
 
  
   const loadPoints = async () => {
@@ -53,32 +61,125 @@ export default function MapLayout() {
     });
   };
 
+  const[selectedPosition, setSelectedPosition] = useState([0,0]);
+
 
   const LocationFinder = () => {
+
+    const[selectedPosition, setSelectedPosition] = useState([0,0]);
+    const[title, setTitle] = useState('');
+    const[description, setDescription] = useState('');
+
     const map = useMapEvents({
         click(e) {
           setSelectedPosition([
             e.latlng.lat,
             e.latlng.lng
         ]);  
-          console.log(e.latlng);
           console.log(selectedPosition);
         },
     })
-    // return null;
-    // <Marker position={e.latlng} icon={customIcon} /> 
+
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+
+      try{
+          // przeslanie requesta do backendu
+          const response = await axios.post(CREATE_POINT_URL, 
+              JSON.stringify({
+                title: title, 
+                longitude: selectedPosition[0], 
+                latitude: selectedPosition[1], 
+                description: description}),
+              {
+                  headers: { 'Content-Type': 'application/json'},
+          //         // withCredentials: true
+              });
+
+          console.log("odpowiedz od serwera:");
+          console.log(response.data);
+
+          navigate('/map', { replace: true });
+
+          // console.log(JSON.stringify(response));
+          // setSuccess(true);
+
+          //clear input fields from registration form - we might do it
+      }catch (err){
+
+          // if(!err?.response) {
+          //     setErrMsg("Brak odpowiedzi serwera");
+          
+          // }else if (err.response?.status == 400){
+          //     setErrMsg("Email zajęty")
+          // }else{
+          //     setErrMsg("Rejestracja nie powiodla sie")
+          // }
+
+          // errRef.current.focus();
+
+      }
+    }
+
+
 
     return (
       selectedPosition ? 
-          <Marker           
-          position={selectedPosition}
-          icon={customIcon}
-          // interactive={false} 
-          />
+
+        <Marker position={selectedPosition} icon={customIcon}>
+
+          <Popup>
+            <div className="create-point-title">Tworzenie punktu</div>
+
+              <form onSubmit={handleSubmit}>
+                <label htmlFor='title'>Tytuł:</label>
+                  <input 
+                      type='text'
+                      id="title"
+                      autoComplete='off'
+                      onChange={(e) => setTitle(e.target.value)}
+                      value={title}
+                      required
+                />
+
+                <label htmlFor='description'>Opis:</label>
+                <input 
+                  type='text'
+                  id="description"
+                  autoComplete='off'
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description}
+                  required
+                />
+
+                
+
+                <button>Stwórz punkt</button>
+
+
+                {/* byc moze bedzie mozna z tego zkorzystac po popranym dodaniu punktu */}
+                {/* navigate('/map', { replace: true }); */}
+
+
+
+              </form>
+            
+          </Popup>
+          
+        </Marker>
+
+
       : null
   )  
     
   };
+
+  const handleSubmit = async (e) => {
+    console.log("sendingForm");
+  }
+
 
 
   
@@ -96,7 +197,7 @@ export default function MapLayout() {
 
             />
 
-            <LocationFinder />
+            <LocationFinder/>
 
 
             {/* łaczy punkty w klastry */}
