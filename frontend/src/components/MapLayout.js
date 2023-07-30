@@ -55,6 +55,7 @@ export default function MapLayout() {
 
   const LocationFinder = () => {
 
+    // const[pointId, setPointId] = useState('');
     const[selectedPosition, setSelectedPosition] = useState([0,0]);
     const[title, setTitle] = useState('');
     const[description, setDescription] = useState('');
@@ -170,6 +171,19 @@ export default function MapLayout() {
     console.log("sendingForm");
   }
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/points/delete/${id}`);
+      console.log("Punkt został usunięty");
+      loadPoints()
+
+    } catch (err) {
+      console.error("Błąd podczas usuwania punktu:", err);
+    }
+  };
+
+  
+
 
 
   
@@ -206,6 +220,10 @@ export default function MapLayout() {
                     {
                       marker.description 
                     }
+
+                    <h4>id: {marker.id}</h4>
+                    <button onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
+
                 </Popup>
               </Marker>
             ))}
