@@ -27,10 +27,17 @@ public class PointController {
         return new ResponseEntity<>(pointService.getAllPoints(), HttpStatus.OK);
     }
 
-
     @PostMapping("/create")
     public ResponseEntity<PointDto> createPoint(@RequestBody PointDto pointDto){
         return new ResponseEntity<>(pointService.createPoint(pointDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePoint(@PathVariable("id") long pointId){
+        pointService.deletePoint(pointId);
+        return new ResponseEntity<>("Point with id:" + pointId + " deleted successfully!", HttpStatus.OK);
+
+
     }
 
 

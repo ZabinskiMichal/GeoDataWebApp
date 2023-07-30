@@ -9,23 +9,13 @@ import { useMapEvents } from 'react-leaflet';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 
-
 const CREATE_POINT_URL = "/points/create";
-
-
 
 export default function MapLayout() {
 
   const navigate = useNavigate();
 
-
   const [marker, setMarker] = useState([]);
-
-  // const [selectedPosition, setSelectedPosition] = useState([0,0]);
-  // const[title, setTitle] = useState('');
-  // const[description, setDescription] = useState('');
-
-
  
   const loadPoints = async () => {
     try {
@@ -63,12 +53,13 @@ export default function MapLayout() {
 
   const[selectedPosition, setSelectedPosition] = useState([0,0]);
 
-
   const LocationFinder = () => {
 
+    // const[pointId, setPointId] = useState('');
     const[selectedPosition, setSelectedPosition] = useState([0,0]);
     const[title, setTitle] = useState('');
     const[description, setDescription] = useState('');
+
 
     const map = useMapEvents({
         click(e) {
@@ -79,7 +70,6 @@ export default function MapLayout() {
           console.log(selectedPosition);
         },
     })
-
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -101,10 +91,10 @@ export default function MapLayout() {
           console.log("odpowiedz od serwera:");
           console.log(response.data);
 
-          navigate('/map', { replace: true });
 
-          // console.log(JSON.stringify(response));
-          // setSuccess(true);
+          //po dodaniu puntu, wystarczy załadować punkty
+          loadPoints()
+
 
           //clear input fields from registration form - we might do it
       }catch (err){
@@ -126,6 +116,7 @@ export default function MapLayout() {
 
 
     return (
+
       selectedPosition ? 
 
         <Marker position={selectedPosition} icon={customIcon}>
@@ -180,6 +171,19 @@ export default function MapLayout() {
     console.log("sendingForm");
   }
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/points/delete/${id}`);
+      console.log("Punkt został usunięty");
+      loadPoints()
+
+    } catch (err) {
+      console.error("Błąd podczas usuwania punktu:", err);
+    }
+  };
+
+  
+
 
 
   
@@ -207,9 +211,6 @@ export default function MapLayout() {
             >
 
 
-
-
-
             
             {marker.map(marker => (
               <Marker position={[marker.longitude, marker.latitude]} icon={customIcon}>
@@ -219,6 +220,10 @@ export default function MapLayout() {
                     {
                       marker.description 
                     }
+
+                    <h4>id: {marker.id}</h4>
+                    <button onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
+
                 </Popup>
               </Marker>
             ))}

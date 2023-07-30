@@ -11,4 +11,5 @@ public interface PointService {
     PointDto createPoint(PointDto pointDto);
 
     List<PointDto> getAllPoints();
+    void deletePoint(long id);
 }

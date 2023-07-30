@@ -1,6 +1,7 @@
 package com.example.geodataapp.service;
 
 import com.example.geodataapp.dto.PointDto;
+import com.example.geodataapp.exception.PointNotFountException;
 import com.example.geodataapp.model.Point;
 import com.example.geodataapp.repository.PointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +51,17 @@ public class PointServiceImpl implements PointService{
     }
 
 
+    @Override
+    public void deletePoint(long id) {
+        Point pointToDelete = pointRepository.findById(id)
+                .orElseThrow(() -> new PointNotFountException("Point with id : " + id + " not found"));
+        pointRepository.delete(pointToDelete);
+    }
+
     private PointDto mapToDto(Point point){
         PointDto pointDto = new PointDto();
 
+        pointDto.setId(point.getId());
         pointDto.setTitle(point.getTitle());
         pointDto.setLongitude(point.getLongitude());
         pointDto.setLatitude(point.getLatitude());
@@ -64,6 +73,7 @@ public class PointServiceImpl implements PointService{
     private Point mapToEntity(PointDto pointDto){
         Point point = new Point();
 
+        point.setId(pointDto.getId());
         point.setTitle(pointDto.getTitle());
         point.setLongitude(pointDto.getLongitude());
         point.setLatitude(pointDto.getLatitude());
