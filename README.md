@@ -31,3 +31,8 @@ Authenticated user:
 - Deleting existing points
 - Editing existing points
 - Ability to generate a report regarding created points and saving it to a CSV file.
+
+
+
+Some app screenshots: 
+
