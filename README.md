@@ -32,10 +32,16 @@ Authenticated user:
 - Editing existing points
 - Ability to generate a report regarding created points and saving it to a CSV file.
 
-#Login form
+# Some app screenshots: 
+
+Logging form:
 ![Login!](https://github.com/ZabinskiMichal/GeoDataWebApp/blob/master/screenshots/Zrzut%20ekranu%202023-07-31%20o%2012.57.09.png)
 
 
+Map view:
+![MAP!](https://github.com/ZabinskiMichal/GeoDataWebApp/blob/master/screenshots/Zrzut%20ekranu%202023-07-31%20o%2012.57.21.png)
 
-Some app screenshots: 
+
+
+
 
