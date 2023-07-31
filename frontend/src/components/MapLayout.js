@@ -6,8 +6,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from '../api/axios';
 import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
-import { faL } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CREATE_POINT_URL = "/points/create";
 
@@ -145,15 +144,7 @@ export default function MapLayout() {
                   required
                 />
 
-                
-
                 <button>Stwórz punkt</button>
-
-
-                {/* byc moze bedzie mozna z tego zkorzystac po popranym dodaniu punktu */}
-                {/* navigate('/map', { replace: true }); */}
-
-
 
               </form>
             
@@ -183,10 +174,6 @@ export default function MapLayout() {
   };
 
   
-
-
-
-  
   return (
 
     <div className='mapContainer'>
@@ -203,26 +190,21 @@ export default function MapLayout() {
 
             <LocationFinder/>
 
-
-            {/* łaczy punkty w klastry */}
             <MarkerClusterGroup
               chunkedLoading
               iconCreateFunction={createCustomClusterIcon}
             >
-
-
-            
+          
             {marker.map(marker => (
               <Marker position={[marker.longitude, marker.latitude]} icon={customIcon}>
                 <Popup>
-                  {/* tutaj mozna kombinowac z htmlem i dowolnym odstosowaniem */}
+
                   <h3>{marker.title}</h3>
                     {
                       marker.description 
                     }
-
-                    <h4>id: {marker.id}</h4>
-                    <button onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
+                    <br />
+                    <button className="delete-button" onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
 
                 </Popup>
               </Marker>
