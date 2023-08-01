@@ -1,10 +1,7 @@
 package com.example.geodataapp.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,5 +20,10 @@ public class Point {
     private Double longitude;
     private Double latitude;
     private String description;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appuser_id")
+    private AppUser appUser;
 
 }

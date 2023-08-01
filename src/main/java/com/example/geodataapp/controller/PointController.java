@@ -22,23 +22,26 @@ public class PointController {
         this.pointService = pointService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<PointDto>> getPoints(){
-        return new ResponseEntity<>(pointService.getAllPoints(), HttpStatus.OK);
+    @GetMapping("/{userId}/all")
+    public ResponseEntity<List<PointDto>> getPoints(
+            @PathVariable(value = "userId") long userId){
+        return new ResponseEntity<>(pointService.getAllPoints(userId), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<PointDto> createPoint(@RequestBody PointDto pointDto){
-        return new ResponseEntity<>(pointService.createPoint(pointDto), HttpStatus.OK);
+
+    @PostMapping("/{userId}/create")
+    public ResponseEntity<PointDto> createPoint(
+            @PathVariable(value = "userId") long userId,
+            @RequestBody PointDto pointDto){
+        return new ResponseEntity<>(pointService.createPoint(userId, pointDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deletePoint(@PathVariable("id") long pointId){
-        pointService.deletePoint(pointId);
-        return new ResponseEntity<>("Point with id:" + pointId + " deleted successfully!", HttpStatus.OK);
-
-
-    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<String> deletePoint(@PathVariable("id") long pointId){
+//        pointService.deletePoint(pointId);
+//        return new ResponseEntity<>("Point with id:" + pointId + " deleted successfully!", HttpStatus.OK);
+//    }
 
 
 }

@@ -18,7 +18,7 @@ export default function MapLayout() {
  
   const loadPoints = async () => {
     try {
-      const response = await axios.get('/points/all');
+      const response = await axios.get('/points/1/all');
       console.log(response?.data)
 
 
