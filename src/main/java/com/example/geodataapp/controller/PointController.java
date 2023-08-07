@@ -14,7 +14,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class PointController {
 
-
     private PointServiceImpl pointService;
 
     @Autowired

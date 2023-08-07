@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 
-const CREATE_POINT_URL = "/points/create";
+const CREATE_POINT_URL = "/points/3/create";
 
 export default function MapLayout() {
 
@@ -18,7 +18,7 @@ export default function MapLayout() {
  
   const loadPoints = async () => {
     try {
-      const response = await axios.get('/points/1/all');
+      const response = await axios.get('/points/3/all');
       console.log(response?.data)
 
 
