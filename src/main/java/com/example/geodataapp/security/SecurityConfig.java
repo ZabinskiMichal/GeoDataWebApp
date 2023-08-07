@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/geodataapp/auth/**").permitAll()
+//                .requestMatchers("/geodataapp/points/**").permitAll()
                 .requestMatchers("/geodataapp/points/**").hasAuthority("USER")
 //                .requestMatchers("/geodataapp/points/**").permitAll() //narazie dostepne dla wszystkich
 //                jezeli nie ustawimy zadnego requestMatcher dla danego endpointa, trzeba bedzie przeslac token aby wykonac na nim jakas operacje

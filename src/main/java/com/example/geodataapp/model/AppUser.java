@@ -32,7 +32,7 @@ public class AppUser {
     private List<Role> roles = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true) //delete point without user assigned
+    @OneToMany(mappedBy = "appUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true) //delete point without user assigned
     private List<Point> points = new ArrayList<>();
 
 
