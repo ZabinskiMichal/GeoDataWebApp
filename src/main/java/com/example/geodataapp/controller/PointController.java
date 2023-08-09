@@ -14,7 +14,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class PointController {
 
-
     private PointServiceImpl pointService;
 
     @Autowired
@@ -22,18 +21,15 @@ public class PointController {
         this.pointService = pointService;
     }
 
-    @GetMapping("/{userId}/all")
-    public ResponseEntity<List<PointDto>> getPoints(
-            @PathVariable(value = "userId") long userId){
-        return new ResponseEntity<>(pointService.getAllPoints(userId), HttpStatus.OK);
+    @GetMapping("/all")
+    public ResponseEntity<List<PointDto>> getPoints(){
+        return new ResponseEntity<>(pointService.getAllPoints(7), HttpStatus.OK);
     }
 
 
-    @PostMapping("/{userId}/create")
-    public ResponseEntity<PointDto> createPoint(
-            @PathVariable(value = "userId") long userId,
-            @RequestBody PointDto pointDto){
-        return new ResponseEntity<>(pointService.createPoint(userId, pointDto), HttpStatus.OK);
+    @PostMapping("/create")
+    public ResponseEntity<PointDto> createPoint(@RequestBody PointDto pointDto){
+        return new ResponseEntity<>(pointService.createPoint(7, pointDto), HttpStatus.OK);
     }
 
 //
