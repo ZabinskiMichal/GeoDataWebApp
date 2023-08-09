@@ -39,12 +39,12 @@ public class PointController {
         return new ResponseEntity<>(pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto), HttpStatus.OK);
     }
 
-//
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<String> deletePoint(@PathVariable("id") long pointId){
-//        pointService.deletePoint(pointId);
-//        return new ResponseEntity<>("Point with id:" + pointId + " deleted successfully!", HttpStatus.OK);
-//    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePoint(@PathVariable("id") long pointId){
+        pointService.deletePoint(pointId, jwtAuthenticationFilter.getUserId());
+        return new ResponseEntity<>("Point with id:" + pointId + " deleted successfully!", HttpStatus.OK);
+    }
 
 
 }

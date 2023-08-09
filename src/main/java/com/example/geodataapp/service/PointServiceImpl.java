@@ -50,16 +50,26 @@ public class PointServiceImpl implements PointService{
     }
 
 
-//    @Override
-//    public void deletePoint(long id) {
-//        Point pointToDelete = pointRepository.findById(id)
-//                .orElseThrow(() -> new PointNotFountException("Point with id : " + id + " not found"));
-//        pointRepository.delete(pointToDelete);
-//    }
+    @Override
+    public void deletePoint(long id, Long userId) {
+
+        Point pointToDelete = pointRepository.findById(id)
+                .orElseThrow(() -> new PointNotFountException("Point with id : " + id + " not found"));
+
+        List<Long> usersPoints = pointRepository.findPointIdsByAppUserId(userId);
+
+        if(!usersPoints.contains(pointToDelete.getId())){
+//            dodac swoj wyjate
+            throw new RuntimeException("Punkt o id: " + pointToDelete.getId() + " nie należy do Ciebie!");
+        }
+
+        pointRepository.delete(pointToDelete);
+    }
 
     private PointDto mapToDto(Point point){
         PointDto pointDto = new PointDto();
 
+        pointDto.setId(point.getId());
         pointDto.setTitle(point.getTitle());
         pointDto.setLongitude(point.getLongitude());
         pointDto.setLatitude(point.getLatitude());
@@ -71,6 +81,7 @@ public class PointServiceImpl implements PointService{
     private Point mapToEntity(PointDto pointDto){
         Point point = new Point();
 
+        point.setId(pointDto.getId());
         point.setTitle(pointDto.getTitle());
         point.setLongitude(pointDto.getLongitude());
         point.setLatitude(pointDto.getLatitude());
