@@ -188,7 +188,11 @@ export default function MapLayout() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/points/delete/${id}`);
+      await axios.delete(`/points/delete/${id}`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       console.log("Punkt został usunięty");
       loadPoints()
 
@@ -196,6 +200,12 @@ export default function MapLayout() {
       console.error("Błąd podczas usuwania punktu:", err);
     }
   };
+
+  // const response = await axios.get('/points/all', {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
 
   
   return (
@@ -227,6 +237,7 @@ export default function MapLayout() {
                     {
                       marker.description 
                     }
+                    
                     <br />
                     <button className="delete-button" onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
 
