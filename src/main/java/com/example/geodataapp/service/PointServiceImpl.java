@@ -60,7 +60,6 @@ public class PointServiceImpl implements PointService{
     private PointDto mapToDto(Point point){
         PointDto pointDto = new PointDto();
 
-        pointDto.setId(point.getId());
         pointDto.setTitle(point.getTitle());
         pointDto.setLongitude(point.getLongitude());
         pointDto.setLatitude(point.getLatitude());
@@ -72,7 +71,6 @@ public class PointServiceImpl implements PointService{
     private Point mapToEntity(PointDto pointDto){
         Point point = new Point();
 
-        point.setId(pointDto.getId());
         point.setTitle(pointDto.getTitle());
         point.setLongitude(pointDto.getLongitude());
         point.setLatitude(pointDto.getLatitude());

@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/geodataapp/auth")
@@ -63,8 +64,6 @@ public class AuthController {
 
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-
-
         //narazie kazdy bedzie userem
         //kazda rola musi byc najpierw dostępna w tabeli roles
         Role roles = roleRepository.findByName("USER").get();
@@ -84,9 +83,13 @@ public class AuthController {
                         loginDto.getEmail(),
                         loginDto.getPassword()));
 
+
+        Optional<Long> userId = userRepository.findDistinctIdByEmail(loginDto.getEmail());
+        //tu powinna byc jeszcze walicajca, w ktorej uzyjemy metody .isPresent()
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String token = jwtGenerator.generateToken(authentication);
+        String token = jwtGenerator.generateToken(authentication, userId.get());
 
         //temporary list of Roles
 //        List<Role> roles = List.of(new Role(1L, "USER"));
@@ -95,4 +98,11 @@ public class AuthController {
 //        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
         return new ResponseEntity<>(new AuthResponseDTO(token, roles), HttpStatus.OK);
     }
+
+
+
+
+
+
 }
+
