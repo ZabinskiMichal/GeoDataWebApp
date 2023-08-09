@@ -1,6 +1,8 @@
 package com.example.geodataapp.controller;
 
 import com.example.geodataapp.dto.PointDto;
+import com.example.geodataapp.security.JWTAuthenticationFilter;
+import com.example.geodataapp.security.JWTGenerator;
 import com.example.geodataapp.service.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,20 +18,25 @@ public class PointController {
 
     private PointServiceImpl pointService;
 
+
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
+
     @Autowired
-    public PointController(PointServiceImpl pointService) {
+    public PointController(PointServiceImpl pointService,
+                           JWTAuthenticationFilter jwtAuthenticationFilter) {
         this.pointService = pointService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<PointDto>> getPoints(){
-        return new ResponseEntity<>(pointService.getAllPoints(7), HttpStatus.OK);
+        return new ResponseEntity<>(pointService.getAllPoints(jwtAuthenticationFilter.getUserId()), HttpStatus.OK);
     }
 
 
     @PostMapping("/create")
     public ResponseEntity<PointDto> createPoint(@RequestBody PointDto pointDto){
-        return new ResponseEntity<>(pointService.createPoint(7, pointDto), HttpStatus.OK);
+        return new ResponseEntity<>(pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto), HttpStatus.OK);
     }
 
 //

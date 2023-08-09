@@ -22,7 +22,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-
+    private Long userId;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -31,8 +31,13 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = getJWTFromRequest(request);
+
         if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)){
             String email = tokenGenerator.getEmailFromJWT(token);
+            Long userId = tokenGenerator.getIdFromJWT(token);
+            this.userId = userId;
+            System.out.println("Pobrany email z tokenu to: " + email);
+            System.out.println("Pobrane id z tokenu to: " + userId);
 
             //here we load user associated with token
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
@@ -57,6 +62,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         }
         return null;
+    }
+
+    public Long getUserId(){
+        return this.userId;
 
     }
+
 }
