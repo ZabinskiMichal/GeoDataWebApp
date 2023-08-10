@@ -7,10 +7,19 @@ import axios from '../api/axios';
 import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import { renderHook } from '@testing-library/react';
+
 
 const CREATE_POINT_URL = "/points/create";
 
+
 export default function MapLayout() {
+
+  const { auth } = useAuth();
+  const token = auth.accessToken;
+
+
 
   const navigate = useNavigate();
 
@@ -18,9 +27,20 @@ export default function MapLayout() {
  
   const loadPoints = async () => {
     try {
-      const response = await axios.get('/points/all');
-      console.log(response?.data)
+      console.log("w MapLayout pobieranie");
+      console.log(token);
 
+
+      const response = await axios.get('/points/all', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+
+
+      console.log(response?.data)
 
       const fetchedMarkers = response.data;
       setMarker(fetchedMarkers);
@@ -83,7 +103,11 @@ export default function MapLayout() {
                 latitude: selectedPosition[1], 
                 description: description}),
               {
-                  headers: { 'Content-Type': 'application/json'},
+                  headers: { 
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                  },
+                  
           //         // withCredentials: true
               });
 
@@ -164,7 +188,11 @@ export default function MapLayout() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/points/delete/${id}`);
+      await axios.delete(`/points/delete/${id}`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       console.log("Punkt został usunięty");
       loadPoints()
 
@@ -172,6 +200,12 @@ export default function MapLayout() {
       console.error("Błąd podczas usuwania punktu:", err);
     }
   };
+
+  // const response = await axios.get('/points/all', {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
 
   
   return (
@@ -203,6 +237,7 @@ export default function MapLayout() {
                     {
                       marker.description 
                     }
+                    
                     <br />
                     <button className="delete-button" onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
 

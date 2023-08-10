@@ -2,9 +2,12 @@ package com.example.geodataapp.service;
 
 import com.example.geodataapp.dto.PointDto;
 import com.example.geodataapp.exception.PointNotFountException;
+import com.example.geodataapp.model.AppUser;
 import com.example.geodataapp.model.Point;
 import com.example.geodataapp.repository.PointRepository;
+import com.example.geodataapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,47 +17,52 @@ import java.util.stream.Collectors;
 public class PointServiceImpl implements PointService{
 
     private PointRepository pointRepository;
+    private UserRepository userRepository;
+
 
     @Autowired
-    public PointServiceImpl(PointRepository pointRepository) {
+    public PointServiceImpl(PointRepository pointRepository, UserRepository userRepository) {
         this.pointRepository = pointRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public PointDto createPoint(PointDto pointDto) {
-        Point point = new Point();
+    public PointDto createPoint(long userId, PointDto pointDto) {
 
-        point.setTitle(pointDto.getTitle());
-        point.setLongitude(pointDto.getLongitude());
-        point.setLatitude(pointDto.getLatitude());
-        point.setDescription(pointDto.getDescription());
+        Point point = mapToEntity(pointDto);
+
+        AppUser appUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Could not find user with id: " + userId));
+
+        point.setAppUser(appUser);
 
         Point newPoint = pointRepository.save(point);
 
-        PointDto pointResponse = new PointDto();
+        return mapToDto(newPoint);
 
-        pointResponse.setTitle(newPoint.getTitle());
-        pointResponse.setLongitude(newPoint.getLongitude());
-        pointResponse.setLatitude(newPoint.getLatitude());
-        pointResponse.setDescription(newPoint.getDescription());
-
-        return pointResponse;
     }
 
     @Override
-    public List<PointDto> getAllPoints() {
-        List<Point> points = pointRepository.findAll();
-
-
+    public List<PointDto> getAllPoints(long userId) {
+        List<Point> points = pointRepository.findByAppUserId(userId);
         //collect po prostu zmienia na liste
         return points.stream().map(point -> mapToDto(point)).collect(Collectors.toList());
     }
 
 
     @Override
-    public void deletePoint(long id) {
+    public void deletePoint(long id, Long userId) {
+
         Point pointToDelete = pointRepository.findById(id)
                 .orElseThrow(() -> new PointNotFountException("Point with id : " + id + " not found"));
+
+        List<Long> usersPoints = pointRepository.findPointIdsByAppUserId(userId);
+
+        if(!usersPoints.contains(pointToDelete.getId())){
+//            dodac swoj wyjate
+            throw new RuntimeException("Punkt o id: " + pointToDelete.getId() + " nie należy do Ciebie!");
+        }
+
         pointRepository.delete(pointToDelete);
     }
 
