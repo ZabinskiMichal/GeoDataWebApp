@@ -3,15 +3,15 @@ package com.example.geodataapp.repository;
 
 import com.example.geodataapp.model.AppUser;
 import com.example.geodataapp.model.Point;
-import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -121,7 +121,28 @@ public class PointRepositoryTest {
 
         Assertions.assertThat(foundIds).isNotNull();
         Assertions.assertThat(foundIds).isEqualTo(List.of(1L, 2L));
-
-
     }
+
+    @Test
+    public void PointRepository_DeletePoint(){
+
+        Point testPoint1 = Point.builder()
+                .title("Test point")
+                .longitude(10d)
+                .latitude(20d)
+                .description("test point description")
+                .build();
+
+
+        pointRepository.save(testPoint1);
+
+        pointRepository.delete(testPoint1);
+
+        Optional<Point> returnedPoint = pointRepository.findById(testPoint1.getId());
+
+        Assertions.assertThat(returnedPoint).isEmpty();
+    }
+
+    // TODO: deleting point that do not belong to user is not allowed - but test it in point service not repo
+
 }
