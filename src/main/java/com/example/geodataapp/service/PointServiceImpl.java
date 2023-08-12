@@ -9,7 +9,13 @@ import com.example.geodataapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import com.opencsv.CSVWriter;
 
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,5 +94,44 @@ public class PointServiceImpl implements PointService{
         point.setDescription(pointDto.getDescription());
 
         return point;
+    }
+
+
+    @Override
+    public void generateRaportToCsv(String path, Long userId) throws IOException {
+
+        List<Point> points = pointRepository.findByAppUserId(userId);
+
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd");
+        String formattedDate = currentDate.format(formatter);
+
+        String createdPath = path + "/raport_" + formattedDate + ".csv";
+
+        try (CSVWriter writer = new CSVWriter(new FileWriter(createdPath))) {
+
+            String[] headers = {"id", "title", "lon", "lat", "description", };
+            writer.writeNext(headers);
+
+            for (Point entity : points) {
+                String[] rowData = {entity.getId().toString(),
+                        entity.getTitle(),
+                        entity.getLongitude().toString(),
+                        entity.getLatitude().toString(),
+                        entity.getDescription()
+                };
+                writer.writeNext(rowData);
+
+            }
+
+            System.out.println("Raport for user: " + userId + " generated");
+        }
+
+
+
+
+
+
+
     }
 }
