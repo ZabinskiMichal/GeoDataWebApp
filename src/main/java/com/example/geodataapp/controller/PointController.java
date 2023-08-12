@@ -1,6 +1,7 @@
 package com.example.geodataapp.controller;
 
 import com.example.geodataapp.dto.PointDto;
+import com.example.geodataapp.model.Path;
 import com.example.geodataapp.security.JWTAuthenticationFilter;
 import com.example.geodataapp.security.JWTGenerator;
 import com.example.geodataapp.service.PointServiceImpl;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -47,6 +49,12 @@ public class PointController {
     }
 
 
+    @PostMapping("/generateraport")
+    public ResponseEntity<String> generateRaport(@RequestBody Path path) throws IOException {
+        Long userId = jwtAuthenticationFilter.getUserId();
+        pointService.generateRaportToCsv(path.getPath(), userId);
+        return new ResponseEntity<>("Raport generated for user with id: " + userId, HttpStatus.OK);
 
+    }
 
 }
