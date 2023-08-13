@@ -199,9 +199,21 @@ button {
 
   .delete-button{
     background-color: #ffcccc;
+    margin-right: 5px;
+
   }
   
   .delete-button:hover {
+    transform: scale(1.1);
+  }
+
+  .update-button {
+    background-color: #ccf2ff;
+    margin-left: 5px; 
+
+  }
+
+.update-button:hover {
     transform: scale(1.1);
   }
 
