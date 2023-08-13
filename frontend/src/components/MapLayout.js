@@ -236,7 +236,7 @@ export default function MapLayout() {
 
                   <h3>{marker.title} {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} </h3>
 
-                  {/* {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} */}
+
                   <br />
                   <h4>Opis:</h4> { marker.description }
                     

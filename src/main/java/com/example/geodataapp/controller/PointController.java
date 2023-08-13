@@ -54,7 +54,13 @@ public class PointController {
         Long userId = jwtAuthenticationFilter.getUserId();
         pointService.generateRaportToCsv(path.getPath(), userId);
         return new ResponseEntity<>("Raport generated for user with id: " + userId, HttpStatus.OK);
+    }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PointDto> updatePoint(@PathVariable(value = "id") Long pointId,
+                                                @RequestBody PointDto pointDto){
+        PointDto updatedPoint = pointService.updatePoint(pointId, jwtAuthenticationFilter.getUserId(), pointDto);
+        return new ResponseEntity<>(updatedPoint, HttpStatus.OK);
     }
 
 }
