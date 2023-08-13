@@ -9,6 +9,7 @@ import MapLayout from './components/MapLayout';
 import Missing from './components/Missing';
 import Home from './components/Home'
 
+
 // const ROLES = {
 //   "USER": 2001,
 //   "ADMIN": 5150
@@ -35,6 +36,7 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["USER"]}/>}>
           <Route path='user' element={<User/>} />
           <Route path='map' element={<MapLayout />} />
+          {/* <Route exact path='/points/update' element={<EditPoint />} /> */}
         </Route>
       
 
