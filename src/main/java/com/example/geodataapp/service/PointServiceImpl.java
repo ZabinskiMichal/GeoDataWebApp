@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.opencsv.CSVWriter;
+
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,7 +60,8 @@ public class PointServiceImpl implements PointService{
     @Override
     public void deletePoint(long id, Long userId) {
 
-        Point pointToDelete = getPointFromPointIf(id);
+        Point pointToDelete = pointRepository.findById(id)
+                .orElseThrow(() -> new PointNotFountException("Point with id : " + id + " not found"));
 
         List<Long> usersPoints = pointRepository.findPointIdsByAppUserId(userId);
 
@@ -68,7 +72,6 @@ public class PointServiceImpl implements PointService{
 
         pointRepository.delete(pointToDelete);
     }
-
 
     @Override
     public PointDto updatePoint(Long pointId, Long userId, PointDto pointDto) {
@@ -90,6 +93,38 @@ public class PointServiceImpl implements PointService{
         Point updatedPoint = pointRepository.save(pointToUpdate);
 
         return mapToDto(updatedPoint);
+    }
+
+    private Point getPointFromPointIf(Long pointId){
+        return pointRepository.findById(pointId)
+                .orElseThrow(() -> new PointNotFountException("Point with id : " + pointId + " not found"));
+    }
+
+
+    private PointDto mapToDto(Point point){
+        PointDto pointDto = new PointDto();
+
+        pointDto.setId(point.getId());
+        pointDto.setTitle(point.getTitle());
+        pointDto.setLongitude(point.getLongitude());
+        pointDto.setLatitude(point.getLatitude());
+        pointDto.setDescription(point.getDescription());
+        pointDto.setCreatedAt(point.getCreatedAt());
+
+        return pointDto;
+    }
+
+    private Point mapToEntity(PointDto pointDto){
+        Point point = new Point();
+
+        point.setId(pointDto.getId());
+        point.setTitle(pointDto.getTitle());
+        point.setLongitude(pointDto.getLongitude());
+        point.setLatitude(pointDto.getLatitude());
+        point.setDescription(pointDto.getDescription());
+        point.setCreatedAt(LocalDateTime.now());
+
+        return point;
     }
 
 
@@ -122,34 +157,12 @@ public class PointServiceImpl implements PointService{
 
             System.out.println("Raport for user: " + userId + " generated");
         }
-    }
 
-    private PointDto mapToDto(Point point){
-        PointDto pointDto = new PointDto();
 
-        pointDto.setId(point.getId());
-        pointDto.setTitle(point.getTitle());
-        pointDto.setLongitude(point.getLongitude());
-        pointDto.setLatitude(point.getLatitude());
-        pointDto.setDescription(point.getDescription());
 
-        return pointDto;
-    }
 
-    private Point mapToEntity(PointDto pointDto){
-        Point point = new Point();
 
-        point.setId(pointDto.getId());
-        point.setTitle(pointDto.getTitle());
-        point.setLongitude(pointDto.getLongitude());
-        point.setLatitude(pointDto.getLatitude());
-        point.setDescription(pointDto.getDescription());
 
-        return point;
-    }
 
-    private Point getPointFromPointIf(Long pointId){
-        return pointRepository.findById(pointId)
-                .orElseThrow(() -> new PointNotFountException("Point with id : " + pointId + " not found"));
     }
 }

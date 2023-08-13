@@ -9,6 +9,7 @@ import { useMapEvents } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { renderHook } from '@testing-library/react';
+import { Link } from 'react-router-dom';
 
 
 const CREATE_POINT_URL = "/points/create";
@@ -18,7 +19,6 @@ export default function MapLayout() {
 
   const { auth } = useAuth();
   const token = auth.accessToken;
-
 
 
   const navigate = useNavigate();
@@ -36,7 +36,6 @@ export default function MapLayout() {
           Authorization: `Bearer ${token}`,
         },
       });
-
 
 
 
@@ -138,6 +137,9 @@ export default function MapLayout() {
 
 
 
+    
+
+
     return (
 
       selectedPosition ? 
@@ -184,9 +186,12 @@ export default function MapLayout() {
 
 
       : null
-  )  
+    )  
     
   };
+
+
+
 
   const handleSubmit = async (e) => {
     console.log("sendingForm");
@@ -208,7 +213,21 @@ export default function MapLayout() {
   };
 
 
-  
+  // const handleUpdate = async (id) => {
+  //   try {
+  //     await axios.put(`/points/update/${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     });
+  //     console.log("Punkt updated")
+  //     loadPoints()
+  //   } catch(err) {
+  //     console.log("Wystapił błąd podcza edycji punktu", err)
+  //   }
+  // };
+
+
   return (
 
     <div className='mapContainer'>
@@ -225,6 +244,7 @@ export default function MapLayout() {
 
             <LocationFinder/>
 
+
             <MarkerClusterGroup
               chunkedLoading
               iconCreateFunction={createCustomClusterIcon}
@@ -235,6 +255,10 @@ export default function MapLayout() {
                 <Popup>
 
                   <h3>{marker.title} {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} </h3>
+                  {marker.createdAt}
+
+
+                  <br />
 
 
                   <br />
@@ -242,6 +266,9 @@ export default function MapLayout() {
                     
                     <br />
                     <button className="delete-button" onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
+                    {/* <Link className='update-button' to={`/points/update`}>Edutuj</Link> */}
+
+
 
                 </Popup>
               </Marker>
