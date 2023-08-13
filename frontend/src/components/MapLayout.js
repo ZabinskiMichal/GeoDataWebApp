@@ -159,14 +159,20 @@ export default function MapLayout() {
                 />
 
                 <label htmlFor='description'>Opis:</label>
-                <input 
-                  type='text'
+              
+
+                <textarea
                   id="description"
-                  autoComplete='off'
+                  autoComplete="off"
                   onChange={(e) => setDescription(e.target.value)}
                   value={description}
                   required
+                  rows={6} // Określ liczbę wierszy, na które ma się rozciągnąć pole tekstowe
+                  cols={40} // Określ szerokość pola tekstowego w kolumnach
+                  style={{ resize: "vertical" }} // Dodaj pionowy pasek przewijania do pola tekstowego
                 />
+
+                
 
                 <button>Stwórz punkt</button>
 
@@ -201,11 +207,6 @@ export default function MapLayout() {
     }
   };
 
-  // const response = await axios.get('/points/all', {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
 
   
   return (
@@ -233,10 +234,11 @@ export default function MapLayout() {
               <Marker position={[marker.longitude, marker.latitude]} icon={customIcon}>
                 <Popup>
 
-                  <h3>{marker.title}</h3>
-                    {
-                      marker.description 
-                    }
+                  <h3>{marker.title} {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} </h3>
+
+
+                  <br />
+                  <h4>Opis:</h4> { marker.description }
                     
                     <br />
                     <button className="delete-button" onClick={() => handleDelete(marker.id)}>Usuń punkt</button>

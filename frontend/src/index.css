@@ -196,6 +196,13 @@ button {
 
 
   /* map delete button */
+
+  .delete-button{
+    background-color: #ffcccc;
+  }
+  
   .delete-button:hover {
     transform: scale(1.1);
   }
+
+  
