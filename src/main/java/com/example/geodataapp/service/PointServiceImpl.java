@@ -15,6 +15,7 @@ import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,6 +81,7 @@ public class PointServiceImpl implements PointService{
         pointDto.setLongitude(point.getLongitude());
         pointDto.setLatitude(point.getLatitude());
         pointDto.setDescription(point.getDescription());
+        pointDto.setCreatedAt(point.getCreatedAt());
 
         return pointDto;
     }
@@ -92,6 +94,7 @@ public class PointServiceImpl implements PointService{
         point.setLongitude(pointDto.getLongitude());
         point.setLatitude(pointDto.getLatitude());
         point.setDescription(pointDto.getDescription());
+        point.setCreatedAt(LocalDateTime.now());
 
         return point;
     }

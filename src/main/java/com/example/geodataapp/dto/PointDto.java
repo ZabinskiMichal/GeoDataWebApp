@@ -2,6 +2,8 @@ package com.example.geodataapp.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class PointDto {
 
@@ -10,6 +12,8 @@ public class PointDto {
     private Double longitude;
     private Double latitude;
     private String description;
+    private LocalDateTime createdAt;
+
 }
 
 
