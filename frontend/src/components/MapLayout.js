@@ -39,7 +39,6 @@ export default function MapLayout() {
 
 
 
-
       console.log(response?.data)
 
       const fetchedMarkers = response.data;
@@ -208,6 +207,8 @@ export default function MapLayout() {
   };
 
 
+
+
   
   return (
 
@@ -235,6 +236,15 @@ export default function MapLayout() {
                 <Popup>
 
                   <h3>{marker.title} {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} </h3>
+              
+
+
+                  Utworzono {marker.createdAt}
+
+
+                  <br />
+
+              
 
 
                   <br />
