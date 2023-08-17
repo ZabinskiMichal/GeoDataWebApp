@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { renderHook } from '@testing-library/react';
-import { Link } from 'react-router-dom';
+import DeletePoint from './DeletePoint';
 
 
 const CREATE_POINT_URL = "/points/create";
@@ -17,11 +16,15 @@ const CREATE_POINT_URL = "/points/create";
 
 export default function MapLayout() {
 
+
   const { auth } = useAuth();
   const token = auth.accessToken;
 
 
   const navigate = useNavigate();
+
+  const [editingMarker, setEditingMarker] = useState(null);
+
 
   const [marker, setMarker] = useState([]);
  
@@ -134,12 +137,7 @@ export default function MapLayout() {
 
       }
     }
-
-
-
     
-
-
     return (
 
       selectedPosition ? 
@@ -190,42 +188,42 @@ export default function MapLayout() {
     
   };
 
+  const handleEdit = (marker) => {
+    setSelectedPosition([marker.longitude, marker.latitude]);
+    // Ustaw inne potrzebne dane do edycji, np. tytuł, opis itp.
+    setEditingMarker(marker);
 
+  };
 
 
   const handleSubmit = async (e) => {
     console.log("sendingForm");
   }
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`/points/delete/${id}`,{
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      console.log("Punkt został usunięty");
-      loadPoints()
 
-    } catch (err) {
-      console.error("Błąd podczas usuwania punktu:", err);
-    }
+   const handleUpdate = async () => {
+    return(
+    <Marker position={[52, 51]} icon={customIcon}>
+
+    <Popup>
+      <div className="create-point-title">Tworzenie punktu</div>
+      </Popup>
+      </Marker>
+    )
+   
+  };
+
+  const cancelEdit = () => {
+    setEditingMarker(null);
   };
 
 
-  // const handleUpdate = async (id) => {
-  //   try {
-  //     await axios.put(`/points/update/${id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     });
-  //     console.log("Punkt updated")
-  //     loadPoints()
-  //   } catch(err) {
-  //     console.log("Wystapił błąd podcza edycji punktu", err)
-  //   }
-  // };
+  // to pozwala na niezamykanie sie okna podczas klikniecia przycisku do edycji
+  const handleEditClick = (e, marker) => {
+    e.stopPropagation();
+    handleEdit(marker);
+  };
+
 
 
   return (
@@ -254,6 +252,17 @@ export default function MapLayout() {
               <Marker position={[marker.longitude, marker.latitude]} icon={customIcon}>
                 <Popup>
 
+                {editingMarker && editingMarker.id === marker.id ? (
+                  <form onSubmit={handleUpdate}>
+                    {/* Wstaw pola formularza do edycji */}
+                    {/* Możesz użyć stanu do przechowywania zmienionych wartości */}
+                    <button type="submit">Zapisz zmiany</button>
+                    <button onClick={cancelEdit}>Anuluj</button>
+                  </form>
+                ) : (
+                  <>
+
+
                   <h3>{marker.title} {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} </h3>
                   {marker.createdAt}
 
@@ -265,8 +274,14 @@ export default function MapLayout() {
                   <h4>Opis:</h4> { marker.description }
                     
                     <br />
-                    <button className="delete-button" onClick={() => handleDelete(marker.id)}>Usuń punkt</button>
+
+                    <DeletePoint id={marker.id} loadPoints={loadPoints} />
+                    <button className="edit-button" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button>
+                    
                     {/* <Link className='update-button' to={`/points/update`}>Edutuj</Link> */}
+
+                    </>
+  )}
 
 
 
