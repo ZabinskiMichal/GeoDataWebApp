@@ -207,14 +207,16 @@ button {
     transform: scale(1.1);
   }
 
-  .update-button {
+
+  .edit-button {
     background-color: #ccf2ff;
-    margin-left: 5px; 
-
+    margin-left: 5px;
   }
 
-.update-button:hover {
+  .edit-button:hover {
     transform: scale(1.1);
+  
   }
+
 
   
