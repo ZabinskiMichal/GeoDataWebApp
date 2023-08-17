@@ -9,7 +9,7 @@ import { useMapEvents } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import DeletePoint from './DeletePoint';
-
+import EditPointPopup from './EditPointPopup';
 
 const CREATE_POINT_URL = "/points/create";
 
@@ -18,29 +18,25 @@ export default function MapLayout() {
 
 
   const { auth } = useAuth();
-  const token = auth.accessToken;
-
-
   const navigate = useNavigate();
 
   const [editingMarker, setEditingMarker] = useState(null);
-
-
+  const[selectedPosition, setSelectedPosition] = useState([0,0]);
   const [marker, setMarker] = useState([]);
+  const token = auth.accessToken;
+
+
  
   const loadPoints = async () => {
     try {
-      console.log("w MapLayout pobieranie");
-      console.log(token);
 
+      console.log(token);
 
       const response = await axios.get('/points/all', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-
 
       console.log(response?.data)
 
@@ -72,7 +68,7 @@ export default function MapLayout() {
     });
   };
 
-  const[selectedPosition, setSelectedPosition] = useState([0,0]);
+
 
   const LocationFinder = () => {
 
@@ -116,9 +112,7 @@ export default function MapLayout() {
           console.log("odpowiedz od serwera:");
           console.log(response.data);
 
-
-          //po dodaniu puntu, wystarczy załadować punkty
-          loadPoints()
+          loadPoints();
 
 
           //clear input fields from registration form - we might do it
@@ -160,20 +154,18 @@ export default function MapLayout() {
 
                 <label htmlFor='description'>Opis:</label>
               
-
                 <textarea
                   id="description"
                   autoComplete="off"
                   onChange={(e) => setDescription(e.target.value)}
                   value={description}
                   required
-                  rows={6} // Określ liczbę wierszy, na które ma się rozciągnąć pole tekstowe
-                  cols={40} // Określ szerokość pola tekstowego w kolumnach
-                  style={{ resize: "vertical" }} // Dodaj pionowy pasek przewijania do pola tekstowego
+                  rows={6} 
+                  cols={40} 
+                  style={{ resize: "vertical" }} 
                 />
 
                 
-
                 <button>Stwórz punkt</button>
 
               </form>
@@ -192,25 +184,42 @@ export default function MapLayout() {
     setSelectedPosition([marker.longitude, marker.latitude]);
     // Ustaw inne potrzebne dane do edycji, np. tytuł, opis itp.
     setEditingMarker(marker);
-
   };
 
 
   const handleSubmit = async (e) => {
     console.log("sendingForm");
-  }
+  };
 
 
-   const handleUpdate = async () => {
-    return(
-    <Marker position={[52, 51]} icon={customIcon}>
 
-    <Popup>
-      <div className="create-point-title">Tworzenie punktu</div>
-      </Popup>
-      </Marker>
-    )
-   
+
+  const handleUpdate = async (updatedMarker) => {
+
+    try {
+      const { id, title, description, longitude, latitude } = updatedMarker;
+
+      const response = await axios.put(`/points/update/${updatedMarker.id}`, {
+
+        title: title,
+        description: description,
+        longitude: longitude, 
+        latitude: latitude,   
+      },{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      setEditingMarker(null);
+      cancelEdit();
+      loadPoints();
+
+
+
+    } catch  (error) {
+        console.error(error);
+      }
   };
 
   const cancelEdit = () => {
@@ -225,11 +234,9 @@ export default function MapLayout() {
   };
 
 
-
   return (
 
     <div className='mapContainer'>
-
 
     <MapContainer center={[52.1, 20.2]} zoom={7}>
 
@@ -253,12 +260,12 @@ export default function MapLayout() {
                 <Popup>
 
                 {editingMarker && editingMarker.id === marker.id ? (
-                  <form onSubmit={handleUpdate}>
-                    {/* Wstaw pola formularza do edycji */}
-                    {/* Możesz użyć stanu do przechowywania zmienionych wartości */}
-                    <button type="submit">Zapisz zmiany</button>
-                    <button onClick={cancelEdit}>Anuluj</button>
-                  </form>
+
+                  <EditPointPopup
+                  marker={editingMarker}
+                  handleUpdate={handleUpdate}
+                  cancelEdit={cancelEdit}
+                  />
                 ) : (
                   <>
 
@@ -266,24 +273,17 @@ export default function MapLayout() {
                   <h3>{marker.title} {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} </h3>
                   {marker.createdAt}
 
-
+                  <br />
                   <br />
 
-
-                  <br />
                   <h4>Opis:</h4> { marker.description }
-                    
                     <br />
-
+                    
                     <DeletePoint id={marker.id} loadPoints={loadPoints} />
                     <button className="edit-button" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button>
-                    
-                    {/* <Link className='update-button' to={`/points/update`}>Edutuj</Link> */}
-
+                  
                     </>
-  )}
-
-
+                 )}
 
                 </Popup>
               </Marker>
@@ -292,7 +292,6 @@ export default function MapLayout() {
           </MarkerClusterGroup>
 
         </MapContainer>
-
 
         </div>
   )
