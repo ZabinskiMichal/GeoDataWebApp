@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 
 
@@ -30,8 +31,6 @@ export default function DisplayPointsPanel() {
       setPoints(response.data);
       console.log(response.data)
 
-
-
     } catch (error) {
       console.error('Błąd pobierania punktów:', error);
     }
@@ -50,12 +49,8 @@ export default function DisplayPointsPanel() {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Tytuł</th>
-            <th scope="col">wpolrzedne</th>
-            <th scope="col">wybór</th>
-
-
-
-
+            <th scope="col">Współrzędne</th>
+            <th scope="col">Wybór</th>
           </tr>
         </thead>
         <tbody>
@@ -67,9 +62,9 @@ export default function DisplayPointsPanel() {
             <td>{point.title}</td>
             <td>[{point.longitude.toFixed(2)} , {point.latitude.toFixed(2)}]</td>
             <td>
-              <butto className="btn btn-primary mx-2">Szczegóły</butto>
-              <butto className="btn btn-outline-primary mx-2">Edycja</butto>
-              <butto className="btn btn-danger mx-2">Usuń</butto>
+              <button className="btn btn-primary mx-2">Szczegóły</button>
+              <Link className="btn btn-outline-primary mx-2" to={"/editpoint"}>Edycja</Link>
+              <button className="btn btn-danger mx-2">Usuń</button>
 
             </td>
 
