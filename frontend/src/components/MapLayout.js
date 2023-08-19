@@ -288,14 +288,7 @@ export default function MapLayout() {
                   <h3>{marker.title} [{marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)}] </h3>
                   <br />
 
-
-
-                  
-                  {/* {marker.createdAt} */}
-                  {formatDate(marker.createdAt)}
-
-
-                  
+                  Utworzono: {formatDate(marker.createdAt)}
 
                   <br />
                   <br />
