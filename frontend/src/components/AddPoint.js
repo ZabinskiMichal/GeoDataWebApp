@@ -22,7 +22,7 @@ export default function AddPoint() {
     const [error, setError] = useState("");
 
 
-    const {title, description, longitude, price, latitude}=point;
+    const {title, description, longitude, latitude}=point;
 
     const onInputChange=(e)=>{
         setPoint({...point,[e.target.name]:e.target.value})
@@ -33,12 +33,20 @@ export default function AddPoint() {
         e.preventDefault();
         try {
             const response = await axios.post("http://localhost:8080/geodataapp/points/create", 
-            point, {
+            JSON.stringify({
+                title: title, 
+                description: description,
+                longitude: longitude, 
+                latitude: latitude, 
+            }), {
               headers: {
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
               },
             });
             navigate("/User");
+            console.log("title: ", title);
+            console.log("desc: ", description);
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setError("cos nie działa");
@@ -79,9 +87,9 @@ export default function AddPoint() {
 
                         <div className='mb-3'>
                             <label htmlFor="description" className='form-label'>
-                                description
+                                Opis punktu
                             </label>
-                            <input type={"text"} className='form-control' placeholder='opis' name="description"
+                            <input type={"text"} className='form-control' placeholder='opis powinen zawierać kluczowe informacje o punkcie ' name="description"
                             value={description}
                             onChange={(e)=>onInputChange(e)}
                             />
@@ -90,10 +98,10 @@ export default function AddPoint() {
 
                         <div className='mb-3'>
                             <label htmlFor="longitude" className='form-label'>
-                              długosc goegoraficzna
+                              długość goegoraficzna
 
                             </label>
-                            <input type={"text"} className='form-control' placeholder='dlugosc' name="longitude"
+                            <input type={"text"} className='form-control' placeholder='np. 53.40' name="longitude"
                             value={longitude}
                             onChange={(e)=>onInputChange(e)}
                             />
@@ -102,11 +110,10 @@ export default function AddPoint() {
 
                         <div className='mb-3'>
                             <label htmlFor="szeroskosc" className='form-label'>
-                              Szerokosc
-
+                              szerokość geograficzna
                             </label>
                         
-                            <input type={"text"} className='form-control' placeholder='szerokosc' name="latitude"
+                            <input type={"text"} className='form-control' placeholder='np. 14.60' name="latitude"
                             value={latitude}
                             onChange={(e)=>onInputChange(e)}
                             />
@@ -114,11 +121,13 @@ export default function AddPoint() {
 
                       
 
+                  
                         <button type='submit' className='btn btn-outline-success'>
                             dodaj
                         </button>
 
-                        <Link className='btn btn-outline-danger mx-2' to="/">
+
+                        <Link className='btn btn-outline-danger' to="/User">
                             anuluj
                         </Link>
 

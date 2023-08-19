@@ -74,9 +74,6 @@ export default function DisplayPointsPanel() {
             </td>
 
 
-
-
-
           </tr>
         ))}
           

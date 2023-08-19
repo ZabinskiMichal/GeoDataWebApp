@@ -220,55 +220,7 @@ button {
 
 
 
-
   /* NAVBAR */
-
-
-.navbar {
-  background-color: lightblue; /* Zmieniony kolor tła */
-  padding: 10px;
-}
-
-.navbar-brand {
-  font-size: 1.5rem;
-  color: #000; 
-  text-decoration: none;
-}
-
-.navbar-toggler {
-  background-color: transparent;
-  border: none;
-}
-
-.navbar-toggler:focus {
-  outline: none;
-}
-
-.navbar-toggler-icon {
-  width: 1.5em;
-  height: 1.5em;
-  background-color: #000; /* Zmieniony kolor ikony */
-}
-
-
-.navbar-button {
-
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: rgba(0, 0, 0, 0.4); 
-  float: right;
-  margin-top: auto;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-
-}
-
-.navbar-button:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-  opacity: 0.8; 
-}
-
 
 .linkButton {
   margin-right: 10px;
