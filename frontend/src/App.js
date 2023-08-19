@@ -7,8 +7,9 @@ import User from './components/User';
 import Admin from './components/Admin';
 import MapLayout from './components/MapLayout';
 import Missing from './components/Missing';
-import Home from './components/Home'
-
+import Home from './components/Home';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import AddPoint from './components/AddPoint';
 
 // const ROLES = {
 //   "USER": 2001,
@@ -36,7 +37,7 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["USER"]}/>}>
           <Route path='user' element={<User/>} />
           <Route path='map' element={<MapLayout />} />
-          {/* <Route exact path='/points/update' element={<EditPoint />} /> */}
+          <Route path='addpoint' element={<AddPoint />} />
         </Route>
       
 

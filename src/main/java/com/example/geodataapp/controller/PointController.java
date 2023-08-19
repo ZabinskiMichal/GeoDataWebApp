@@ -19,7 +19,6 @@ public class PointController {
 
     private PointServiceImpl pointService;
 
-
     private JWTAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired

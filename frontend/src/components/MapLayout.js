@@ -181,7 +181,6 @@ export default function MapLayout() {
 
   const handleEdit = (marker) => {
     setSelectedPosition([marker.longitude, marker.latitude]);
-    // Ustaw inne potrzebne dane do edycji, np. tytuł, opis itp.
     setEditingMarker(marker);
   };
 
@@ -189,7 +188,6 @@ export default function MapLayout() {
   const handleSubmit = async (e) => {
     console.log("sendingForm");
   };
-
 
 
 
