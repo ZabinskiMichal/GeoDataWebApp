@@ -3,7 +3,6 @@ package com.example.geodataapp.controller;
 import com.example.geodataapp.dto.PointDto;
 import com.example.geodataapp.model.Path;
 import com.example.geodataapp.security.JWTAuthenticationFilter;
-import com.example.geodataapp.security.JWTGenerator;
 import com.example.geodataapp.service.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

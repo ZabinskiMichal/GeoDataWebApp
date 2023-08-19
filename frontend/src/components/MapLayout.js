@@ -64,7 +64,6 @@ export default function MapLayout() {
       html: `<div class="cluster-icon">${cluster.getChildCount()}</>`,
       className: "custom-marker-cluster",
       iconSize: point(33,33,true)
-
     });
   };
 
@@ -234,6 +233,22 @@ export default function MapLayout() {
   };
 
 
+  // elemmenty daty są przesyłane w tablicy
+  const formatDate = (timestamp) => {
+
+    console.log("rok wynosi: ", timestamp[0])
+
+    const year = timestamp[0];
+    const month = timestamp[1]
+    const day = timestamp[2]
+
+    const hours = timestamp[3]
+    const minutes = timestamp[4]
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
+
+
   return (
 
     <div className='mapContainer'>
@@ -270,8 +285,17 @@ export default function MapLayout() {
                   <>
 
 
-                  <h3>{marker.title} {marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)} </h3>
-                  {marker.createdAt}
+                  <h3>{marker.title} [{marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)}] </h3>
+                  <br />
+
+
+
+                  
+                  {/* {marker.createdAt} */}
+                  {formatDate(marker.createdAt)}
+
+
+                  
 
                   <br />
                   <br />
