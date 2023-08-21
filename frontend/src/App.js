@@ -7,8 +7,10 @@ import User from './components/User';
 import Admin from './components/Admin';
 import MapLayout from './components/MapLayout';
 import Missing from './components/Missing';
-import Home from './components/Home'
-
+import Home from './components/Home';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import AddPoint from './components/AddPoint';
+import EditPoint from './components/EditPoint';
 
 // const ROLES = {
 //   "USER": 2001,
@@ -29,14 +31,17 @@ function App() {
         {/* <Route path="linkpage" element={<LinkPage />} /> */}
         {/* <Route path="unauthorized" element={<Unauthorized />} /> */}
 
-        {/* <Route path='map' element={<MapLayout />} /> */}
 
         <Route path='/' element={<Home />} />
 
         <Route element={<RequireAuth allowedRoles={["USER"]}/>}>
+
           <Route path='user' element={<User/>} />
           <Route path='map' element={<MapLayout />} />
-          {/* <Route exact path='/points/update' element={<EditPoint />} /> */}
+
+          {/* panel */}
+          <Route path='addpoint' element={<AddPoint />} />
+          <Route path="editpoint" element={<EditPoint />} />
         </Route>
       
 
