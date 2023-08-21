@@ -19,7 +19,6 @@ public class PointController {
 
     private PointServiceImpl pointService;
 
-
     private JWTAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
@@ -33,6 +32,13 @@ public class PointController {
     public ResponseEntity<List<PointDto>> getPoints(){
         return new ResponseEntity<>(pointService.getAllPoints(jwtAuthenticationFilter.getUserId()), HttpStatus.OK);
     }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PointDto> getPointById(@PathVariable("id") long id){
+        return new ResponseEntity<>(pointService.getPointById(id, jwtAuthenticationFilter.getUserId()), HttpStatus.OK);
+    }
+
 
 
     @PostMapping("/create")

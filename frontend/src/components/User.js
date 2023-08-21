@@ -1,15 +1,14 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Navbar from '../layout/Navbar';
+import DisplayPointsPanel from "./DisplayPointsPanel";
 
-export default function 
-() {
+
+export default function () {
   return (
-
-  <div className="button-container">
-    <p>Witamy na podstronie usera</p>
-      <Link to="/map">
-        <button className="login-button">Przedź do mapy</button>
-      </Link>
+  <div className="user-container">
+    <Navbar/>
+    <DisplayPointsPanel/>
   </div>
     
   )
