@@ -34,6 +34,13 @@ public class PointController {
     }
 
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PointDto> getPointById(@PathVariable("id") long id){
+        return new ResponseEntity<>(pointService.getPointById(id, jwtAuthenticationFilter.getUserId()), HttpStatus.OK);
+    }
+
+
+
     @PostMapping("/create")
     public ResponseEntity<PointDto> createPoint(@RequestBody PointDto pointDto){
         return new ResponseEntity<>(pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto), HttpStatus.OK);

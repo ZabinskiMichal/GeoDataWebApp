@@ -65,7 +65,6 @@ export default function DisplayPointsPanel() {
               <button className="btn btn-primary mx-2">Szczegóły</button>
               <Link className="btn btn-outline-primary mx-2" to={"/editpoint"}>Edycja</Link>
               <button className="btn btn-danger mx-2">Usuń</button>
-
             </td>
 
 

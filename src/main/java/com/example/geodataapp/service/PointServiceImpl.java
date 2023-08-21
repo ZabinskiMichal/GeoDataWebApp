@@ -56,6 +56,23 @@ public class PointServiceImpl implements PointService{
         return points.stream().map(point -> mapToDto(point)).collect(Collectors.toList());
     }
 
+    @Override
+    public PointDto getPointById(long pointId, Long userId) {
+        Point point = pointRepository.findById(pointId)
+                .orElseThrow(() -> new PointNotFountException("Point with id : " + pointId + " not found"));
+
+        List<Long> usersPoints = pointRepository.findPointIdsByAppUserId(userId);
+
+        if(!usersPoints.contains(point.getId())){
+//            dodac swoj wyjate
+            throw new RuntimeException("Punkt o id: " + point.getId() + " nie należy do Ciebie!");
+        }
+
+        return mapToDto(point);
+    }
+
+
+
 
     @Override
     public void deletePoint(long id, Long userId) {
@@ -126,6 +143,7 @@ public class PointServiceImpl implements PointService{
 
         return point;
     }
+
 
 
     @Override
