@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
+import { marker } from 'leaflet';
 
 
 
@@ -36,6 +37,15 @@ export default function DisplayPointsPanel() {
     }
   };
 
+  const deletePoint = async(id) => {
+    await axios.delete(`http://localhost:8080/geodataapp/points/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    loadPoints();
+  }
+
 
   return (
 
@@ -62,9 +72,10 @@ export default function DisplayPointsPanel() {
             <td>{point.title}</td>
             <td>[{point.longitude.toFixed(2)} , {point.latitude.toFixed(2)}]</td>
             <td>
-              <button className="btn btn-primary mx-2">Szczegóły</button>
-              <Link className="btn btn-outline-primary mx-2" to={"/editpoint"}>Edycja</Link>
-              <button className="btn btn-danger mx-2">Usuń</button>
+              <Link className="btn btn-primary mx-2" to={`/viewpoint/${point.id}`}>Szczegóły</Link>
+              <Link className="btn btn-outline-primary mx-2" to={`/editpoint/${point.id}`}>Edycja</Link>
+              <button className="btn btn-danger mx-2" onClick={() => deletePoint(point.id)}>Usuń</button>
+
             </td>
 
 

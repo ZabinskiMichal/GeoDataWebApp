@@ -11,6 +11,7 @@ import Home from './components/Home';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import AddPoint from './components/AddPoint';
 import EditPoint from './components/EditPoint';
+import ViewPoint from './components/ViewPoint';
 
 // const ROLES = {
 //   "USER": 2001,
@@ -41,7 +42,9 @@ function App() {
 
           {/* panel */}
           <Route path='addpoint' element={<AddPoint />} />
-          <Route path="editpoint" element={<EditPoint />} />
+          <Route exact path="/editpoint/:id" element={<EditPoint />} />
+          <Route exact path="/viewpoint/:id" element={<ViewPoint />} />
+
         </Route>
       
 
