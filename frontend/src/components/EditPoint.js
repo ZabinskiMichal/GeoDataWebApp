@@ -1,21 +1,31 @@
 import axios from 'axios'
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import useAuth from '../hooks/useAuth';
 
 
 export default function EditPoint() {
     let navigate=useNavigate();
 
+    const {id} = useParams();
+
 
     const { auth } = useAuth();
     const token = auth.accessToken;
 
+    
+
+    useEffect(() => {
+        loadPoint();
+    }, [])
+
+   
 
     const [point, setPoint]=useState({
         title:"",
         description:"",
         longitude:"",
+        // poprawic pola
         price:"",
         latitude:"",
     });
@@ -59,7 +69,15 @@ export default function EditPoint() {
 
 
     
-
+    const loadPoint = async () => {
+        const result = await axios.get(`http://localhost:8080/geodataapp/points/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log("pobrany punkt", result.data);
+        setPoint(result.data);
+    }
 
 
   return (
