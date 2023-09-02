@@ -76,6 +76,7 @@ export default function EditPoint() {
             },
         });
         console.log("pobrany punkt", result.data);
+        console.log(result.data)
         setPoint(result.data);
     }
 
