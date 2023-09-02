@@ -56,6 +56,30 @@ export default function AddPoint() {
         }
     };
 
+
+
+
+    const findMe = () => {
+
+    
+        const success = (position) => {
+          console.log(position.coords.latitude)
+          console.log(position.coords.longitude)
+
+          const updatedPoint = { ...point };
+        
+          updatedPoint.longitude = position.coords.latitude;
+          updatedPoint.latitude = position.coords.longitude;
+          setPoint(updatedPoint);
+        }
+    
+        const error = () => { 
+          console.log("nie wyraziłeś zgody na lokalizacje :( ")
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error);        
+    }
+
     
 
 
@@ -122,6 +146,11 @@ export default function AddPoint() {
                       
 
                   
+                        <button type="button" className='btn btn-outline-primary' onClick={() => findMe()}>
+                            zlokalizuj mnie
+                        </button>
+
+
                         <button type='submit' className='btn btn-outline-success'>
                             dodaj
                         </button>

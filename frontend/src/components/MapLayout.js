@@ -4,12 +4,13 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Icon, divIcon, point } from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from '../api/axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useMapEvents } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import DeletePoint from './DeletePoint';
 import EditPointPopup from './EditPointPopup';
+import { faPoundSign } from '@fortawesome/free-solid-svg-icons';
 
 const CREATE_POINT_URL = "/points/create";
 
@@ -234,8 +235,6 @@ export default function MapLayout() {
   // elemmenty daty są przesyłane w tablicy
   const formatDate = (timestamp) => {
 
-    console.log("rok wynosi: ", timestamp[0])
-
     const year = timestamp[0];
     const month = timestamp[1]
     const day = timestamp[2]
@@ -245,11 +244,15 @@ export default function MapLayout() {
 
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
-
+  
 
   return (
 
     <div className='mapContainer'>
+
+      <div className="mapHeader">
+        <h1>Mapa punktów</h1>
+      </div>
 
     <MapContainer center={[52.1, 20.2]} zoom={7}>
 
@@ -261,6 +264,7 @@ export default function MapLayout() {
             />
 
             <LocationFinder/>
+
 
 
             <MarkerClusterGroup
