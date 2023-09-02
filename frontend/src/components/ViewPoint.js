@@ -65,35 +65,33 @@ export default function ViewPoint(){
 
                 <div className="card">
                     <div className="card-header">
-                        Szczegóły punktu o id: 
+
                         <ul className="list-group list-group-flush">
                             <li className="list-group-item">
-                                <b>Tytył:</b>
+                                <b>Tytył: </b>
                                 {point.title}
                             </li>
 
                             <li className="list-group-item">
-                                <b>Opis:</b>
+                                <b>Opis: </b>
                                 {point.description}
 
                             </li>
 
                             <li className="list-group-item">
-                                <b>Długośc geograficzna:</b>
-                                {point.longitude}
+                                <b>Długośc geograficzna: </b>
 
                             </li>
 
                             <li className="list-group-item">
-                                <b>Szerokość geograficzna:</b>
+                                <b>Szerokość geograficzna: </b>
                                 {point.latitude}
 
                             </li>
 
                             <li className="list-group-item">
-                                <b>Utworzono:</b>
+                                <b>Utworzono: </b>
                                 {formatDate (point.createdAt)}
-                                {/* {point.created_at} */}
 
                             </li>
 

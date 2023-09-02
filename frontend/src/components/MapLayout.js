@@ -165,8 +165,10 @@ export default function MapLayout() {
                   style={{ resize: "vertical" }} 
                 />
 
+                <br />
+
                 
-                <button>Stwórz punkt</button>
+                <button className='btn btn-outline-success'>Stwórz punkt</button>
 
               </form>
             
@@ -267,7 +269,7 @@ export default function MapLayout() {
         <h1>Mapa punktów</h1>
       </div> */}
 
-    <MapContainer center={[52.1, 20.2]} zoom={7}>
+    <MapContainer center={[51.1, 20.2]} zoom={6}>
 
         <TileLayer 
             attribution =  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -300,7 +302,7 @@ export default function MapLayout() {
                   <>
 
 
-                  <h3>{marker.title} [{marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)}] </h3>
+                  <h5>{marker.title} [{marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)}] </h5>
                   <br />
 
                   Utworzono: {formatDate(marker.createdAt)}
@@ -308,11 +310,17 @@ export default function MapLayout() {
                   <br />
                   <br />
 
-                  <h4>Opis:</h4> { marker.description }
-                    <br />
+                  Opis: {marker.description}
+                  
+                  <br />
                     
+
+                    
+                 
                     <DeletePoint id={marker.id} loadPoints={loadPoints} />
                     <button className="edit-button" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button>
+                    {/* <button className="btn btn-outline-primary mx-2" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button> */}
+
                   
                     </>
                  )}

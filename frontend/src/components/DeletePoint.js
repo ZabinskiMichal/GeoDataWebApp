@@ -28,5 +28,7 @@ export default function DeletePoint({ id, loadPoints }) {
 
   return (
     <button className="delete-button" onClick={handleDelete}>Usuń punkt</button>
+    // <button className="btn btn-outline-danger" onClick={handleDelete}>Usuń punkt</button>
+
   )
 }

@@ -70,6 +70,7 @@ export default function AddPoint() {
         
           updatedPoint.longitude = position.coords.latitude;
           updatedPoint.latitude = position.coords.longitude;
+
           setPoint(updatedPoint);
         }
     
@@ -150,13 +151,17 @@ export default function AddPoint() {
                             zlokalizuj mnie
                         </button>
 
+                        <br />
+
 
                         <button type='submit' className='btn btn-outline-success'>
                             dodaj
                         </button>
 
+                        <br />
 
-                        <Link className='btn btn-outline-danger' to="/User">
+
+                        <Link className='btn btn-danger' to="/User">
                             anuluj
                         </Link>
 

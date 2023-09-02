@@ -72,8 +72,8 @@ export default function DisplayPointsPanel() {
             <td>{point.title}</td>
             <td>[{point.longitude.toFixed(2)} , {point.latitude.toFixed(2)}]</td>
             <td>
-              <Link className="btn btn-primary mx-2" to={`/viewpoint/${point.id}`}>Szczegóły</Link>
-              <Link className="btn btn-outline-primary mx-2" to={`/editpoint/${point.id}`}>Edycja</Link>
+              <Link className="btn btn-primary mx-2 login-button" to={`/viewpoint/${point.id}`}>Szczegóły</Link>
+              <Link className='btn btn-primary mx-2' to={`/editpoint/${point.id}`}>Edycja</Link>
               <button className="btn btn-danger mx-2" onClick={() => deletePoint(point.id)}>Usuń</button>
 
             </td>
