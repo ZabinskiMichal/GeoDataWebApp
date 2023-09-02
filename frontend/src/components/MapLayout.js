@@ -6,7 +6,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from '../api/axios';
 import { useEffect, useState, useRef } from 'react';
 import { useMapEvents } from 'react-leaflet';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import DeletePoint from './DeletePoint';
 import EditPointPopup from './EditPointPopup';
@@ -165,8 +165,10 @@ export default function MapLayout() {
                   style={{ resize: "vertical" }} 
                 />
 
+                <br />
+
                 
-                <button>Stwórz punkt</button>
+                <button className='btn btn-outline-success'>Stwórz punkt</button>
 
               </form>
             
@@ -250,11 +252,24 @@ export default function MapLayout() {
 
     <div className='mapContainer'>
 
-      <div className="mapHeader">
-        <h1>Mapa punktów</h1>
-      </div>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div className="container-fluid">
 
-    <MapContainer center={[52.1, 20.2]} zoom={7}>
+                <a className="navbar-brand text-center fw-bold" href="#">Mapa</a>
+                
+                <div className='buttonContainer'>
+                  <Link className='btn btn-outline-light linkButton' to = "/User">Powrót do menu</Link> 
+              </div>
+
+            </div>
+        </nav>
+
+
+      {/* <div className="mapHeader">
+        <h1>Mapa punktów</h1>
+      </div> */}
+
+    <MapContainer center={[51.1, 20.2]} zoom={6}>
 
         <TileLayer 
             attribution =  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -287,7 +302,7 @@ export default function MapLayout() {
                   <>
 
 
-                  <h3>{marker.title} [{marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)}] </h3>
+                  <h5>{marker.title} [{marker.longitude.toFixed(2)} , {marker.latitude.toFixed(2)}] </h5>
                   <br />
 
                   Utworzono: {formatDate(marker.createdAt)}
@@ -295,11 +310,17 @@ export default function MapLayout() {
                   <br />
                   <br />
 
-                  <h4>Opis:</h4> { marker.description }
-                    <br />
+                  Opis: {marker.description}
+                  
+                  <br />
                     
+
+                    
+                 
                     <DeletePoint id={marker.id} loadPoints={loadPoints} />
                     <button className="edit-button" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button>
+                    {/* <button className="btn btn-outline-primary mx-2" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button> */}
+
                   
                     </>
                  )}

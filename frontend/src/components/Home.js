@@ -5,13 +5,19 @@ export default function Home() {
   return (
 
     <div className="welcome-component">
-    <p>Witamy w aplikacji do zbierania danych geo</p>
+    <h1>GeoApp</h1>
+
+    <h3>
+      Wnieś swoją pracę w terenie na wyższy level
+    </h3>
+
+    <br />
     <div className="button-container">
       <Link to="/login">
-        <button className="login-button">Logowanie</button>
+        <button className="btn btn-primary login-button">Logowanie</button>
       </Link>
       <Link to="/register">
-        <button className="register-button">Rejestracja</button>
+        <button className="btn btn-primary register-button">Rejestracja</button>
       </Link>
     </div>
   </div>

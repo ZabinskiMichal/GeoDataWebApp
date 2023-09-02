@@ -41,8 +41,12 @@ export default function EditPointPopup({ marker, handleUpdate, cancelEdit }) {
         style={{ resize: 'vertical' }}
       />
 
-      <button type='submit'>Zapisz zmiany</button>
-      <button type='button' onClick={cancelEdit}>Anuluj
+      <br />
+
+      <button className="btn btn-outline-success" type='submit'>Zapisz zmiany</button>
+      <br />
+      
+      <button className="btn btn-danger" type='button' onClick={cancelEdit}>Anuluj
       </button>
     </form>
   );

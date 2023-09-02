@@ -100,16 +100,17 @@ export default function Login() {
 
     <div className='input-container'>
 
+
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
         
-        <h1>Zaloguj się</h1>
+        <h1 style={{ color: 'white' }}>Zaloguj się</h1>
 
         <form onSubmit={handleSubmit}>
 
             {/* EMAIL */}
 
-            <label htmlFor='email'>Email:</label>
+            <label htmlFor='email' style={{ color: 'white' }}>Email:</label>
             <input 
                 type='text'
                 id="email"
@@ -123,7 +124,7 @@ export default function Login() {
 
             {/* PASSWORD */}
 
-            <label htmlFor='password'>Hasło:</label>
+            <label htmlFor='password' style={{ color: 'white' }}>Hasło:</label>
             <input 
                 type='password'
                 id="password"
@@ -132,11 +133,13 @@ export default function Login() {
                 required
             />
 
-            <button>Zaloguj się</button>
+            <br />
+
+            <button className='btn btn-primary'>Zaloguj się</button>
 
         </form>
 
-        <p>
+        <p style={{ color: 'white' }}>
             Nie posiadasz konta? <br />
             <span className='line'>
                 <Link to="/register">Zarejestruj się</Link>

@@ -24,10 +24,13 @@ body {
     display: flex;
     justify-content: center; 
     align-items: center;
-    height: 100vh;
-    background-color: lightblue;
+    height: 110vh;
+    /* background-color: lightblue; */
+    background-color: rgb(43, 150, 193);
 
-  }
+
+
+}
 
 
 
@@ -40,6 +43,7 @@ body {
   padding: 1rem 0.5rem;
 }
 
+
 section {
     width: 100%;
     max-width: 420px;
@@ -48,7 +52,9 @@ section {
     flex-direction: column;
     justify-content: flex-start;
     padding: 1rem;
-    background-color: rgba(0,0,0,0.4);
+    /* background-color: rgba(0,0,0,0.4); */
+    background-color: rgba(15, 19, 23, 0.4);
+
 }
 
 
@@ -200,6 +206,7 @@ button {
   .delete-button{
     background-color: #ffcccc;
     margin-right: 5px;
+    border-radius: 5%;
 
   }
   
@@ -211,6 +218,8 @@ button {
   .edit-button {
     background-color: #ccf2ff;
     margin-left: 5px;
+    border-radius: 5%;
+
   }
 
   .edit-button:hover {

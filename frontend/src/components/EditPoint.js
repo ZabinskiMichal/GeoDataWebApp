@@ -147,8 +147,10 @@ export default function EditPoint() {
                             dodaj
                         </button>
 
+                        <br />
 
-                        <Link className='btn btn-outline-danger' to="/User">
+
+                        <Link className='btn btn-danger' to="/User">
                             anuluj
                         </Link>
 
