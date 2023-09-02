@@ -6,6 +6,8 @@ import useAuth from '../hooks/useAuth';
 
 export default function ViewPoint(){
 
+
+
     const { auth } = useAuth();
     const token = auth.accessToken;
 
@@ -15,7 +17,7 @@ export default function ViewPoint(){
         description:"",
         longitude:"",
         latitude:"",
-        created_at:"",
+        createdAt:"",
     });
 
     const {id} = useParams();
@@ -34,9 +36,24 @@ export default function ViewPoint(){
         });
 
         console.log("pobrano punktu: ", result.data)
+        console.log("utworono: ", result.data.createdAt)
+
+        
 
         setPoint(result.data);
     }
+
+    const formatDate = (timestamp) => {
+
+        const year = timestamp[0];
+        const month = timestamp[1]
+        const day = timestamp[2]
+    
+        const hours = timestamp[3]
+        const minutes = timestamp[4]
+    
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+      };
 
     
 
@@ -75,7 +92,8 @@ export default function ViewPoint(){
 
                             <li className="list-group-item">
                                 <b>Utworzono:</b>
-                                {point.created_at}
+                                {formatDate (point.createdAt)}
+                                {/* {point.created_at} */}
 
                             </li>
 

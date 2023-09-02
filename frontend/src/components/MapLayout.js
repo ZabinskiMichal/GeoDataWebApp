@@ -6,7 +6,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from '../api/axios';
 import { useEffect, useState, useRef } from 'react';
 import { useMapEvents } from 'react-leaflet';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import DeletePoint from './DeletePoint';
 import EditPointPopup from './EditPointPopup';
@@ -250,9 +250,22 @@ export default function MapLayout() {
 
     <div className='mapContainer'>
 
-      <div className="mapHeader">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div className="container-fluid">
+
+                <a className="navbar-brand text-center fw-bold" href="#">Mapa</a>
+                
+                <div className='buttonContainer'>
+                  <Link className='btn btn-outline-light linkButton' to = "/User">Powrót do menu</Link> 
+              </div>
+
+            </div>
+        </nav>
+
+
+      {/* <div className="mapHeader">
         <h1>Mapa punktów</h1>
-      </div>
+      </div> */}
 
     <MapContainer center={[52.1, 20.2]} zoom={7}>
 

@@ -146,12 +146,12 @@ export default function Register() {
         <p ref={errRef} className={errMsg ? "errmsg" : 
         "offscreen"} aria-live="assetive" > {errMsg} </p>
 
-        <h1>Rejestracja</h1>
+        <h1 style={{ color: 'white' }}>Rejestracja</h1>
         <form onSubmit={handleSubmit}>
 
             {/* FIRSTNAME */}
 
-            <label htmlFor="firstname">
+            <label htmlFor="firstname" style={{ color: 'white' }}>
                 Imie:
                 
                 {/* <span className={validEmail ? "valid" : "hide"}>
@@ -182,7 +182,7 @@ export default function Register() {
 
             {/* LASTNAME */}
 
-            <label htmlFor="lastname">
+            <label htmlFor="lastname" style={{ color: 'white' }}>
                 Nazwisko:
                 
                 {/* <span className={validEmail ? "valid" : "hide"}>
@@ -214,7 +214,7 @@ export default function Register() {
 
             {/* EMAIL */}
 
-            <label htmlFor="email">
+            <label htmlFor="email" style={{ color: 'white' }}>
                 Email:
                 
                 <span className={validEmail ? "valid" : "hide"}>
@@ -253,7 +253,7 @@ export default function Register() {
 
 
 
-            <label htmlFor="password">
+            <label htmlFor="password" style={{ color: 'white' }}>
                 Hasło:
                 <span className = {validpassword ? "valid" : "hide"}>
                     <FontAwesomeIcon icon={faCheck} />
@@ -286,7 +286,7 @@ export default function Register() {
                 <span aria-label="percent">%</span>
             </p>
 
-            <label htmlFor="confirm_password">
+            <label htmlFor="confirm_password" style={{ color: 'white' }}>
                 Potwierdź hasło:
                 <span className={validMatch && matchpassword ? "valid" : "hide"}>
                     <FontAwesomeIcon icon={faCheck} />
@@ -314,13 +314,15 @@ export default function Register() {
                 Hasla musza sie zgadzac
             </p>
 
-            <button disabled={!validEmail || !validpassword || !validMatch ? true : false}>
+            <br />
+
+            <button className="btn btn-primary" disabled={!validEmail || !validpassword || !validMatch ? true : false}>
                 Zarejestruj sie
             </button>
             
         </form>
 
-        <p>
+        <p style={{ color: 'white' }}>
             Posiadasz juz konto? <br />
             <span className="line">
                 {/* potem trzeba odac tutaj opowiendni rout */}
