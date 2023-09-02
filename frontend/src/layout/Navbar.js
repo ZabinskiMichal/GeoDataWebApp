@@ -12,7 +12,7 @@ export default function Navbar() {
                 <a className="navbar-brand text-center fw-bold" href="#">Panel usera</a>
                 <div className='buttonContainer'>
                   <Link className='btn btn-outline-light linkButton' to = "/map">Przejdź do mapy</Link> 
-                  <Link className='btn btn-outline-light linkButton' to = "/addpoint">Dodaj punkt</Link>
+                  <Link className='btn btn-outline-light linkButton' to = "/addpoint">Dodaj nowy punkt</Link>                  
               </div>
 
             </div>
