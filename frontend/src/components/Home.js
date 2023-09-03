@@ -5,10 +5,12 @@ import WelcomeNavbar from '../layout/WelcomeNavbar'
 export default function Home() {
   return (
 
-    <div className="welcome-component">
+    // <div className="welcome-component">
+    <div className="user-container">
+
 
       
-    <h1>GeoApp</h1>
+    {/* <h1>GeoApp</h1>
 
     <h3>
       Wnieś swoją pracę w terenie na wyższy level
@@ -22,13 +24,13 @@ export default function Home() {
       <Link to="/register">
         <button className="btn btn-primary register-button">Rejestracja</button>
       </Link>
-    </div>
+    </div> */}
 
-    {/* <WelcomeNavbar /> */}
+    <WelcomeNavbar />
 
-    {/* <h3> */}
-      {/* Wnieś swoją pracę w terenie na wyższy level */}
-    {/* </h3> */}
+    <h3>
+      Wnieś swoją pracę w terenie na wyższy level
+    </h3>
 
 
 

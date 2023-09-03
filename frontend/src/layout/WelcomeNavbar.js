@@ -11,8 +11,8 @@ export default function WelcomeNavbar() {
 
                 <a className="navbar-brand text-center fw-bold" >GeoApp</a>
                 <div className='buttonContainer'>
-                  <Link className='btn btn-outline-light linkButton' to = "/map">Przejdź do mapy</Link> 
-                  <Link className='btn btn-outline-light linkButton' to = "/addpoint">Dodaj nowy punkt</Link>                  
+                  <Link className='btn btn-outline-light linkButton' to = "/login">Logowanie</Link> 
+                  <Link className='btn btn-outline-light linkButton' to = "/register">Rejestracja</Link>                  
               </div>
 
             </div>
