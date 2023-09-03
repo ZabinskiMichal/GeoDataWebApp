@@ -30,32 +30,44 @@ export default function Home() {
 
     <div className='home-component'>
 
-    <div>
-
-      <img src="https://github.com/ZabinskiMichal/GeoDataWebApp/blob/welcome_layout/images/img1.png?raw=true" alt="Opis zdjęcia" className='welcome-image'/>
-
-
-
-    </div>
-
-
-    <h3>
+    <h3 style={{ color: 'white' }}>
       Wnieś swoją pracę w terenie na wyższy level 
     </h3>
-    <p>
+
+    <br />
+
+    <div>
+      <img src="https://github.com/ZabinskiMichal/GeoDataWebApp/blob/welcome_layout/screenshots/img1.png?raw=true" alt="Opis zdjęcia" className='welcome-image'/>
+    </div>
+
+    <br />
+
+
+
+
+    <p style={{ color: 'lightblue' }}>
       <li>
         dodawanie punktów na podstawie lokalizacji
       </li>
+
       <li>
-        przeglądnie punktów na mapie
+        przeglądanie punktów na mapie
+      </li>
+
+      <li>
+        generowanie raportów 
+      </li>
+
+      <li>
+        dashboard z punkami
       </li>
     </p>
 
+    <div>
+      <img src="https://github.com/ZabinskiMichal/GeoDataWebApp/blob/welcome_layout/screenshots/img2.png?raw=true" alt="Opis zdjęcia" className='welcome-image'/>
     </div>
 
-    
-
-
+    </div>
 
   </div>
 
