@@ -32,7 +32,7 @@ export default function Home() {
 
     <div>
 
-      <img src="https://github.com/ZabinskiMichal/GeoDataWebApp/blob/master/screenshots/Zrzut%20ekranu%202023-07-31%20o%2012.57.09.png?raw=true" alt="Opis zdjęcia" className='welcome-image'/>
+      <img src="https://github.com/ZabinskiMichal/GeoDataWebApp/blob/welcome_layout/images/img1.png?raw=true" alt="Opis zdjęcia" className='welcome-image'/>
 
 
 
