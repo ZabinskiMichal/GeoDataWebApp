@@ -147,6 +147,7 @@ public class PointServiceImpl implements PointService{
 
 
     @Override
+//    public void generateRaportToCsv(Long userId) throws IOException {
     public void generateRaportToCsv(String path, Long userId) throws IOException {
 
         List<Point> points = pointRepository.findByAppUserId(userId);

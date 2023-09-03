@@ -54,9 +54,11 @@ public class PointController {
 
 
     @PostMapping("/generateraport")
+//    public ResponseEntity<String> generateRaport() throws IOException {
     public ResponseEntity<String> generateRaport(@RequestBody Path path) throws IOException {
         Long userId = jwtAuthenticationFilter.getUserId();
         pointService.generateRaportToCsv(path.getPath(), userId);
+//        pointService.generateRaportToCsv(userId);
         return new ResponseEntity<>("Raport generated for user with id: " + userId, HttpStatus.OK);
     }
 
