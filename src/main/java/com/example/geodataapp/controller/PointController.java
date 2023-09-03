@@ -40,7 +40,6 @@ public class PointController {
     }
 
 
-
     @PostMapping("/create")
     public ResponseEntity<PointDto> createPoint(@RequestBody PointDto pointDto){
         return new ResponseEntity<>(pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto), HttpStatus.OK);
