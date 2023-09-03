@@ -9,8 +9,6 @@ export default function DeletePoint({ id, loadPoints }) {
 
 
     const handleDelete = async () => {
-        console.log("hello form delete componentet")
-
         try {
           await axios.delete(`/points/delete/${id}`,{
             headers: {
@@ -26,9 +24,8 @@ export default function DeletePoint({ id, loadPoints }) {
       };
 
 
-  return (
-    <button className="delete-button" onClick={handleDelete}>Usuń punkt</button>
-    // <button className="btn btn-outline-danger" onClick={handleDelete}>Usuń punkt</button>
-
-  )
+      return (
+        <button className="delete-button" onClick={handleDelete}>Usuń punkt</button>
+        // <button className="btn btn-outline-danger" onClick={handleDelete}>Usuń punkt</button>
+      )
 }

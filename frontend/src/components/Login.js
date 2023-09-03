@@ -121,7 +121,6 @@ export default function Login() {
                 required
             />
 
-
             {/* PASSWORD */}
 
             <label htmlFor='password' style={{ color: 'white' }}>Hasło:</label>

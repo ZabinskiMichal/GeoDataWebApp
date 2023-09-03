@@ -17,6 +17,7 @@ public interface PointService {
     void deletePoint(long id, Long userId);
 
     void generateRaportToCsv(String path, Long userId) throws IOException;
+//    void generateRaportToCsv(Long userId) throws IOException;
 
     PointDto getPointById(long pointId, Long userId);
 
