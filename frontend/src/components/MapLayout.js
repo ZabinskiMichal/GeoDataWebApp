@@ -157,7 +157,12 @@ export default function MapLayout() {
                 <textarea
                   id="description"
                   autoComplete="off"
-                  onChange={(e) => setDescription(e.target.value)}
+                  // onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    if (e.target.value.length <= 255) {
+                      setDescription(e.target.value);
+                    }
+                  }}
                   value={description}
                   required
                   rows={6} 
@@ -166,7 +171,6 @@ export default function MapLayout() {
                 />
 
                 <br />
-
                 
                 <button className='btn btn-outline-success'>Stwórz punkt</button>
 
@@ -314,14 +318,10 @@ export default function MapLayout() {
                   
                   <br />
                     
-
-                    
-                 
                     <DeletePoint id={marker.id} loadPoints={loadPoints} />
                     <button className="edit-button" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button>
                     {/* <button className="btn btn-outline-primary mx-2" onClick={(e) => handleEditClick(e, marker)}>Edytuj punkt</button> */}
 
-                  
                     </>
                  )}
 

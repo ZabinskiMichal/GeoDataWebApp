@@ -114,33 +114,46 @@ export default function AddPoint() {
                             <label htmlFor="description" className='form-label'>
                                 Opis punktu
                             </label>
-                            <input type={"text"} className='form-control' placeholder='opis powinen zawierać kluczowe informacje o punkcie ' name="description"
-                            value={description}
-                            onChange={(e)=>onInputChange(e)}
+                            <textarea
+                                id="description"
+                                className='form-control'
+                                placeholder='kluczowe informacje o punkcie (max 255 znaków)'
+                                name="description"
+                                value={description}
+                                onChange={(e) => {
+                                if (e.target.value.length <= 255) {
+                                    onInputChange(e);
+                                }
+                                }}
+                                maxLength={255}
+                                rows={7} // Możesz dostosować wysokość do swoich preferencji
                             />
                         </div>
 
 
+
                         <div className='mb-3'>
                             <label htmlFor="longitude" className='form-label'>
-                              długość goegoraficzna
+                              Długość goegoraficzna
 
                             </label>
                             <input type={"text"} className='form-control' placeholder='np. 53.40' name="longitude"
                             value={longitude}
                             onChange={(e)=>onInputChange(e)}
+                            required
                             />
                         </div>
 
 
                         <div className='mb-3'>
                             <label htmlFor="szeroskosc" className='form-label'>
-                              szerokość geograficzna
+                              Szerokość geograficzna
                             </label>
                         
                             <input type={"text"} className='form-control' placeholder='np. 14.60' name="latitude"
                             value={latitude}
                             onChange={(e)=>onInputChange(e)}
+                            required
                             />
                         </div>
 

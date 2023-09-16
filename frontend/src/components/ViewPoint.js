@@ -81,11 +81,16 @@ export default function ViewPoint(){
                             <li className="list-group-item">
                                 <b>Długośc geograficzna: </b>
 
+                                {parseFloat(point.longitude).toFixed(2)}
+
+
                             </li>
 
                             <li className="list-group-item">
                                 <b>Szerokość geograficzna: </b>
-                                {point.latitude}
+                                {/* {point.latitude} */}
+                                {parseFloat(point.latitude).toFixed(2)}
+
 
                             </li>
 

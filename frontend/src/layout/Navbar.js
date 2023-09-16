@@ -3,9 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
-
-
-
+import FileSaver from 'file-saver';
 
 
 
@@ -19,24 +17,39 @@ export default function Navbar() {
     console.log("proba generowania raportu")
 
     try {
-      const response = await axios.post("/points/generateraport",
-      JSON.stringify({
-        path: "./",
-      }), 
-      {
+      const response = await axios.get("/points/generateraport", 
+      { responseType: 'blob',
+
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         }
       });
+
+      const fileName = 'raport.csv';
+      const blob = new Blob([response.data], { type: 'text/csv' });
+
+      FileSaver.saveAs(blob, fileName);
+
+
       console.log("wygenerowano raport");
-      console.log("odpowiedz: ", response);
+      // console.log("odpowiedz: ", response);
 
     } catch (err) {
       console.error("Błąd podczas generowania raportu:", err);
     }
   };
 
+  const handleLogout = async () => {
+
+    window.location.reload();
+
+    window.location.href = 'http://localhost:3000/';
+  } 
+
+
+
+
+  
 
   return (
     <div>
@@ -50,6 +63,8 @@ export default function Navbar() {
                   <Link className='btn btn-outline-light linkButton' to = "/addpoint">Dodaj nowy punkt</Link>     
                   {/* <button type="button" className='btn btn-outline-light linkButton' onClick={() => handleGenerateRaport()}>Generuj raport</button>              */}
                   <button type="button" className='btn btn-outline-light linkButton' onClick={handleGenerateRaport}>Generuj raport</button>             
+                  
+                  <button type='button' className='btn btn-danger' onClick={() => handleLogout()}>Wyloguj się</button>
 
               </div>
 

@@ -34,7 +34,12 @@ export default function EditPointPopup({ marker, handleUpdate, cancelEdit }) {
         id='editedDescription'
         autoComplete='off'
         value={editedDescription}
-        onChange={(e) => setEditedDescription(e.target.value)}
+
+        onChange={(e) => {
+          if (e.target.value.length <= 255) {
+            setEditedDescription(e.target.value);
+          }
+        }}
         required
         rows={6}
         cols={40}

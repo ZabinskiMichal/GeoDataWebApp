@@ -5,11 +5,15 @@ import com.example.geodataapp.model.Path;
 import com.example.geodataapp.security.JWTAuthenticationFilter;
 import com.example.geodataapp.service.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -53,13 +57,21 @@ public class PointController {
     }
 
 
-    @PostMapping("/generateraport")
-//    public ResponseEntity<String> generateRaport() throws IOException {
-    public ResponseEntity<String> generateRaport(@RequestBody Path path) throws IOException {
+    @GetMapping("/generateraport")
+    public ResponseEntity<ByteArrayResource> generateRaport() throws IOException {
         Long userId = jwtAuthenticationFilter.getUserId();
-        pointService.generateRaportToCsv(path.getPath(), userId);
-//        pointService.generateRaportToCsv(userId);
-        return new ResponseEntity<>("Raport generated for user with id: " + userId, HttpStatus.OK);
+
+        byte[] raportBytes = pointService.generateRaportToCsv(userId);
+
+        ByteArrayResource resource = new ByteArrayResource(raportBytes);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentLength(raportBytes.length);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "raport.csv");
+
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+
     }
 
     @PutMapping("/update/{id}")
