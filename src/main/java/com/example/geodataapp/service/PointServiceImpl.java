@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import com.opencsv.CSVWriter;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -146,42 +148,68 @@ public class PointServiceImpl implements PointService{
 
 
 
-    @Override
+//    @Override
 //    public void generateRaportToCsv(Long userId) throws IOException {
-    public void generateRaportToCsv(String path, Long userId) throws IOException {
+//        List<Point> points = pointRepository.findByAppUserId(userId);
+//
+//        LocalDate currentDate = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd");
+//        String formattedDate = currentDate.format(formatter);
+//
+//        String createdPath = "/raport_" + formattedDate + ".csv";
+//
+//        try (CSVWriter writer = new CSVWriter(new FileWriter(createdPath))) {
+//
+//            String[] headers = {"id", "title", "lon", "lat", "description", };
+//            writer.writeNext(headers);
+//
+//            for (Point entity : points) {
+//                String[] rowData = {entity.getId().toString(),
+//                        entity.getTitle(),
+//                        entity.getLongitude().toString(),
+//                        entity.getLatitude().toString(),
+//                        entity.getDescription()
+//                };
+//                writer.writeNext(rowData);
+//
+//            }
+//
+//            System.out.println("Raport for user: " + userId + " generated");
+//        }
+//
+//    }
 
+
+
+    @Override
+    public byte[] generateRaportToCsv(Long userId) throws IOException {
         List<Point> points = pointRepository.findByAppUserId(userId);
 
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd");
         String formattedDate = currentDate.format(formatter);
 
-        String createdPath = path + "/raport_" + formattedDate + ".csv";
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        try (CSVWriter writer = new CSVWriter(new FileWriter(createdPath))) {
+        try (CSVWriter writer = new CSVWriter(new OutputStreamWriter(outputStream))) {
 
-            String[] headers = {"id", "title", "lon", "lat", "description", };
+            String[] headers = {"id", "title", "lon", "lat", "description"};
             writer.writeNext(headers);
 
             for (Point entity : points) {
-                String[] rowData = {entity.getId().toString(),
+                String[] rowData = {
+                        entity.getId().toString(),
                         entity.getTitle(),
                         entity.getLongitude().toString(),
                         entity.getLatitude().toString(),
                         entity.getDescription()
                 };
                 writer.writeNext(rowData);
-
             }
 
             System.out.println("Raport for user: " + userId + " generated");
         }
 
-
-
-
-
-
-
+        return outputStream.toByteArray();
     }
 }

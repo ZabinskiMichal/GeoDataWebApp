@@ -106,7 +106,7 @@ export default function EditPoint() {
                         </div>
 
 
-                        <div className='mb-3'>
+                        {/* <div className='mb-3'>
                             <label htmlFor="description" className='form-label'>
                                 Opis punktu
                             </label>
@@ -114,12 +114,32 @@ export default function EditPoint() {
                             value={description}
                             onChange={(e)=>onInputChange(e)}
                             />
-                        </div>
+                        </div> */}
 
+                        <div className='mb-3'>
+                            <label htmlFor="description" className='form-label'>
+                                Opis punktu
+                                </label>
+                                <textarea
+                                    id="description"
+                                    className='form-control'
+                                    placeholder='opis powinien zawierać kluczowe informacje o punkcie'
+                                    name="description"
+                                    value={description}
+                                    // onChange={(e) => onInputChange(e)}
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 255) {
+                                          onInputChange(e);
+                                        }
+                                      }}
+
+                                    rows={6}
+                                />
+                            </div>
 
                         <div className='mb-3'>
                             <label htmlFor="longitude" className='form-label'>
-                              długość goegoraficzna
+                              Długość goegoraficzna
 
                             </label>
                             <input type={"text"} className='form-control' placeholder='np. 53.40' name="longitude"
@@ -131,7 +151,7 @@ export default function EditPoint() {
 
                         <div className='mb-3'>
                             <label htmlFor="szeroskosc" className='form-label'>
-                              szerokość geograficzna
+                              Szerokość geograficzna
                             </label>
                         
                             <input type={"text"} className='form-control' placeholder='np. 14.60' name="latitude"
@@ -139,19 +159,15 @@ export default function EditPoint() {
                             onChange={(e)=>onInputChange(e)}
                             />
                         </div>
-
-                      
-
                   
                         <button type='submit' className='btn btn-outline-success'>
-                            dodaj
+                            Zapisz
                         </button>
 
                         <br />
-
-
+                        
                         <Link className='btn btn-danger' to="/User">
-                            anuluj
+                            Anuluj
                         </Link>
 
                     </form>
