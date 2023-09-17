@@ -6,14 +6,12 @@ import com.example.geodataapp.model.AppUser;
 import com.example.geodataapp.model.Point;
 import com.example.geodataapp.repository.PointRepository;
 import com.example.geodataapp.repository.UserRepository;
+import com.opencsv.CSVWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.opencsv.CSVWriter;
-
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.LocalDate;
