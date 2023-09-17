@@ -1,7 +1,6 @@
 package com.example.geodataapp.controller;
 
 import com.example.geodataapp.dto.PointDto;
-import com.example.geodataapp.model.Path;
 import com.example.geodataapp.security.JWTAuthenticationFilter;
 import com.example.geodataapp.service.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
