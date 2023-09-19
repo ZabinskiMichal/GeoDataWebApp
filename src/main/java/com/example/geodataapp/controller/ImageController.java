@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/geodataapp/images")
@@ -26,10 +27,12 @@ public class ImageController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile file) throws IOException {
-        String uploadImage = imageService.uploadImage(file);
+    public ResponseEntity<?> uploadImage(@RequestParam("image") List<MultipartFile> files) throws IOException {
+//        String uploadImage = imageService.uploadImage(files);
+        imageService.uploadImage(files);
+
         return ResponseEntity.status(HttpStatus.OK)
-                .body(uploadImage);
+                .body("Dodano pliki");
     }
 
     @GetMapping("/{id}")

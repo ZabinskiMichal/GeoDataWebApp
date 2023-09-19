@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,16 +24,30 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public String uploadImage(MultipartFile file) throws IOException {
+    public String uploadImage(List<MultipartFile> files) throws IOException {
 
-        ImageData imageData = imageRepository.save(ImageData.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+        for(MultipartFile file : files){
 
-        if(imageData != null){
-            return "Pomyślnie zapisano plik o nazwie: " + file.getOriginalFilename();
+            ImageData imageData = imageRepository.save(ImageData.builder()
+                    .name(file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .imageData(ImageUtils.compressImage(file.getBytes())).build());
+            System.out.println("Zapisywanie: " + file.getOriginalFilename());
+
+//            if(imageData != null){
+//                return "Pomyślnie zapisano plik o nazwie: " + file.getOriginalFilename();
+//            }
+
         }
+
+//        ImageData imageData = imageRepository.save(ImageData.builder()
+//                .name(file.getOriginalFilename())
+//                .type(file.getContentType())
+//                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+
+//        if(imageData != null){
+//            return "Pomyślnie zapisano plik o nazwie: " + file.getOriginalFilename();
+//        }
 
         return "Zapisywanie nie powiadło sie";
     }
