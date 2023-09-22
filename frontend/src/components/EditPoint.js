@@ -9,7 +9,7 @@ export default function EditPoint() {
 
     const {id} = useParams();
 
-
+ 
     const { auth } = useAuth();
     const token = auth.accessToken;
 

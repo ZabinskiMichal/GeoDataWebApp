@@ -9,7 +9,7 @@ import java.util.List;
 //metody w interfejsie są dostępne domyślnie
 public interface ImageService {
 
-    String uploadImage(List<MultipartFile> files) throws IOException;
+    String uploadImage(List<MultipartFile> files, Long pointID) throws IOException;
 
     byte[] downloadImage(Long id);
 }

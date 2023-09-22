@@ -26,10 +26,11 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("image") List<MultipartFile> files) throws IOException {
+    @PostMapping("/upload/{point_id}")
+    public ResponseEntity<?> uploadImage(@PathVariable("point_id") Long point_id,
+                                         @RequestParam("image") List<MultipartFile> files) throws IOException {
 //        String uploadImage = imageService.uploadImage(files);
-        imageService.uploadImage(files);
+        imageService.uploadImage(files, point_id);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Dodano pliki");
