@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,5 +33,9 @@ public class Point {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appuser_id")
     private AppUser appUser;
+
+    @OneToMany(mappedBy = "point", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageData> images = new ArrayList<ImageData>();
+
 
 }

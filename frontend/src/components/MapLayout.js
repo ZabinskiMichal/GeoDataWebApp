@@ -93,6 +93,8 @@ export default function MapLayout() {
 
 
       try{
+        
+
           // przeslanie requesta do backendu
           const response = await axios.post(CREATE_POINT_URL, 
               JSON.stringify({
@@ -170,6 +172,15 @@ export default function MapLayout() {
                   style={{ resize: "vertical" }} 
                 />
 
+                <label htmlFor="image">Zdjęcie:</label>
+                  <input
+                    type="file"
+                    id="image"
+                    accept="image/*"
+                    // onChange={(e) => handleImageUpload(e)}
+                    // required
+                  />
+
                 <br />
                 
                 <button className='btn btn-outline-success'>Stwórz punkt</button>
@@ -197,14 +208,17 @@ export default function MapLayout() {
   };
 
 
-
-  const handleUpdate = async (updatedMarker) => {
+  const handleUpdate = async (updatedMarker, selectedImages) => {
 
     try {
       const { id, title, description, longitude, latitude } = updatedMarker;
 
-      const response = await axios.put(`/points/update/${updatedMarker.id}`, {
+      const formData = new FormData();
+        for (let i = 0; i < selectedImages.length; i++) {
+          formData.append('image', selectedImages[i]);
+        }
 
+      const response = await axios.put(`/points/update/${updatedMarker.id}`, {
         title: title,
         description: description,
         longitude: longitude, 
@@ -215,11 +229,16 @@ export default function MapLayout() {
         }
       });
 
+      const response2 = await axios.post(`/images/upload/${updatedMarker.id}`, formData,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
       setEditingMarker(null);
       cancelEdit();
       loadPoints();
-
-
 
     } catch  (error) {
         console.error(error);

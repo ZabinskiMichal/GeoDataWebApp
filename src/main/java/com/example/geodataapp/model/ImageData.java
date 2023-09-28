@@ -22,4 +22,10 @@ public class ImageData {
 
     @Lob // bo jest to format binarny
     private byte[] imageData;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "point_id")
+    private Point point;
+
 }
