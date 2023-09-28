@@ -208,7 +208,6 @@ export default function MapLayout() {
   };
 
 
-
   const handleUpdate = async (updatedMarker, selectedImages) => {
 
     try {
