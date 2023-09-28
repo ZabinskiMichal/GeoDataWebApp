@@ -19,10 +19,10 @@ export default function EditPointPopup({ marker, handleUpdate, cancelEdit }) {
     
   };
 
-   const handleFileInputChange = (e) => {
-    const files = e.target.files;
-    setSelectedImages([...selectedImages, ...files]);
-  };
+    const handleFileInputChange = (e) => {
+      const files = e.target.files;
+      setSelectedImages([...selectedImages, ...files]);
+    };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -53,14 +53,14 @@ export default function EditPointPopup({ marker, handleUpdate, cancelEdit }) {
         style={{ resize: 'vertical' }}
       />
 
-    <label htmlFor='fileInput'>Wybierz zdjęcia:</label>
-      <input
-        type='file'
-        id='fileInput'
-        accept='image/*'
-        multiple 
-        onChange={handleFileInputChange} 
-      />
+      <label htmlFor='fileInput'>Wybierz zdjęcia:</label>
+        <input
+          type='file'
+          id='fileInput'
+          accept='image/*'
+          multiple 
+          onChange={handleFileInputChange} 
+        />
 
       <br />
 

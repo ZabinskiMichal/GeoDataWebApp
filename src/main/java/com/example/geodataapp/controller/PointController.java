@@ -55,8 +55,9 @@ public class PointController {
 
     @PostMapping("/create-with-images")
     public ResponseEntity<PointDto> createPointWithImages(
-            @RequestParam("image") List<MultipartFile> files,
-            @RequestBody PointDto pointDto) throws IOException {
+//            @RequestBody PointDto pointDto,
+            @ModelAttribute PointDto pointDto,
+            @RequestParam("image") List<MultipartFile> files) throws IOException {
 
         PointDto createdPoint = pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto);
 
