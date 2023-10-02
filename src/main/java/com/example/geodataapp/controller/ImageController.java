@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
@@ -57,32 +58,69 @@ public class ImageController {
                 .body(images);
     }
 
-    @GetMapping("/image/{id}")
-    public void downloadImage(HttpServletResponse response,
-            @PathVariable Long id) throws IOException {
 
-
-        byte[] imageData = imageService.downloadImage(id);
-
-        // Pobierz ContentType obrazu, na podstawie którego dodamy rozszerzenie pliku.
-        String contentType = "image/png";  // Domyślny Content-Type
-
-        // Tutaj możesz dodać logikę do określenia Content-Type na podstawie danych obrazu.
-
-        String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png"; // Przykład rozszerzenia.
+    @GetMapping("/image/{idTest123}")
+    public void downloadImages(HttpServletResponse response,
+                               @PathVariable Long idTest123) throws IOException {
+        System.out.println("Not used: " + idTest123);
+        List<Long> imageIds = Arrays.asList(18L, 19L); // Numery obrazów do pobrania
 
         response.setContentType("application/zip");
-        response.setHeader("Content-Disposition", "attachment;filename=Download." + fileExtension + ".zip"); // Ustaw nazwę pliku ZIP z odpowiednim rozszerzeniem.
+        response.setHeader("Content-Disposition", "attachment;filename=Images.zip");
 
-        ZipOutputStream outputStream = new ZipOutputStream(response.getOutputStream());
-        outputStream.putNextEntry(new ZipEntry("image." + fileExtension)); // Ustaw nazwę pliku wewnątrz ZIP z rozszerzeniem obrazu.
-        outputStream.write(imageData);
-        outputStream.closeEntry();
+        try (ZipOutputStream outputStream = new ZipOutputStream(response.getOutputStream())) {
+            for (Long id : imageIds) {
+                byte[] imageData = imageService.downloadImage(id);
+
+                // Pobierz ContentType obrazu, na podstawie którego dodamy rozszerzenie pliku.
+                String contentType = "image/png";  // Domyślny Content-Type
+
+                // Tutaj możesz dodać logikę do określenia Content-Type na podstawie danych obrazu.
+
+                String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png"; // Przykład rozszerzenia.
+
+                // Ustaw nazwę pliku wewnątrz ZIP z rozszerzeniem obrazu.
+                String entryName = "image_" + id + "." + fileExtension;
+
+                // Dodaj obraz do pliku ZIP.
+                outputStream.putNextEntry(new ZipEntry(entryName));
+                outputStream.write(imageData);
+                outputStream.closeEntry();
+            }
+        }
 
         response.setStatus(HttpStatus.OK.value()); // 200
-        outputStream.finish();
-
     }
+
+
+//    WORKS
+//    @GetMapping("/image/{id}")
+//    public void downloadImage(HttpServletResponse response,
+//            @PathVariable Long id) throws IOException {
+//
+//
+//
+//        byte[] imageData = imageService.downloadImage(id);
+//
+//        // Pobierz ContentType obrazu, na podstawie którego dodamy rozszerzenie pliku.
+//        String contentType = "image/png";  // Domyślny Content-Type
+//
+//        // Tutaj możesz dodać logikę do określenia Content-Type na podstawie danych obrazu.
+//
+//        String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png"; // Przykład rozszerzenia.
+//
+//        response.setContentType("application/zip");
+//        response.setHeader("Content-Disposition", "attachment;filename=Download." + fileExtension + ".zip"); // Ustaw nazwę pliku ZIP z odpowiednim rozszerzeniem.
+//
+//        ZipOutputStream outputStream = new ZipOutputStream(response.getOutputStream());
+//        outputStream.putNextEntry(new ZipEntry("image." + fileExtension)); // Ustaw nazwę pliku wewnątrz ZIP z rozszerzeniem obrazu.
+//        outputStream.write(imageData);
+//        outputStream.closeEntry();
+//
+//        response.setStatus(HttpStatus.OK.value()); // 200
+//        outputStream.finish();
+//
+//    }
 
 //    @GetMapping("/image/{id}")
 //    public ResponseEntity<?> downloadImage(@PathVariable Long id){
