@@ -43,23 +43,13 @@ public class ImageServiceImpl implements ImageService{
                     .build());
             System.out.println("Zapisywanie: " + file.getOriginalFilename());
 
-//            if(imageData != null){
-//                return "Pomyślnie zapisano plik o nazwie: " + file.getOriginalFilename();
-//            }
-
         }
 
-//        ImageData imageData = imageRepository.save(ImageData.builder()
-//                .name(file.getOriginalFilename())
-//                .type(file.getContentType())
-//                .imageData(ImageUtils.compressImage(file.getBytes())).build());
-
-//        if(imageData != null){
-//            return "Pomyślnie zapisano plik o nazwie: " + file.getOriginalFilename();
-//        }
 
         return "Zapisywanie nie powiadło sie";
     }
+
+
 
     @Override
     public byte[] downloadImage(Long id) {
@@ -69,4 +59,10 @@ public class ImageServiceImpl implements ImageService{
 
         return images;
     }
+
+    @Override
+    public List<byte[]> findImagesByPointId(Long pointID) {
+        return null;
+    }
+
 }

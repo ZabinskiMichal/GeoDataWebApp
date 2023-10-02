@@ -12,4 +12,7 @@ public interface ImageService {
     String uploadImage(List<MultipartFile> files, Long pointID) throws IOException;
 
     byte[] downloadImage(Long id);
+
+    List<byte[]> findImagesByPointId(Long pointID);
+
 }
