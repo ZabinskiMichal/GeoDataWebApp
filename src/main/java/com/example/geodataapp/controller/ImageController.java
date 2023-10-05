@@ -59,11 +59,12 @@ public class ImageController {
     }
 
 
-    @GetMapping("/image/{idTest123}")
+    @GetMapping("/image/{pointID}")
     public void downloadImages(HttpServletResponse response,
-                               @PathVariable Long idTest123) throws IOException {
-        System.out.println("Not used: " + idTest123);
-        List<Long> imageIds = Arrays.asList(18L, 19L); // Numery obrazów do pobrania
+                               @PathVariable Long pointID) throws IOException {
+//        List<Long> imageIds = Arrays.asList(18L, 19L); // Numery obrazów do pobrania
+        List<Long> imageIds = imageService.getImagesIdForPoint(pointID); // Numery obrazów do pobrania
+
 
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment;filename=Images.zip");
@@ -72,17 +73,12 @@ public class ImageController {
             for (Long id : imageIds) {
                 byte[] imageData = imageService.downloadImage(id);
 
-                // Pobierz ContentType obrazu, na podstawie którego dodamy rozszerzenie pliku.
                 String contentType = "image/png";  // Domyślny Content-Type
-
-                // Tutaj możesz dodać logikę do określenia Content-Type na podstawie danych obrazu.
 
                 String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png"; // Przykład rozszerzenia.
 
-                // Ustaw nazwę pliku wewnątrz ZIP z rozszerzeniem obrazu.
                 String entryName = "image_" + id + "." + fileExtension;
 
-                // Dodaj obraz do pliku ZIP.
                 outputStream.putNextEntry(new ZipEntry(entryName));
                 outputStream.write(imageData);
                 outputStream.closeEntry();

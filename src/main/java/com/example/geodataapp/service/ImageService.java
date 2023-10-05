@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 //metody w interfejsie są dostępne domyślnie
 public interface ImageService {
@@ -14,5 +15,7 @@ public interface ImageService {
     byte[] downloadImage(Long id);
 
     List<byte[]> findImagesByPointId(Long pointID);
+
+    List<Long> getImagesIdForPoint(Long pointID);
 
 }

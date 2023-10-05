@@ -65,4 +65,20 @@ public class ImageServiceImpl implements ImageService{
         return null;
     }
 
+    @Override
+    public List<Long> getImagesIdForPoint(Long pointID) {
+
+        System.out.println("Szukanie id");
+
+        Optional<List<Long>> foundImages = imageRepository.getImagesIdByPointId(pointID);
+
+        System.out.println("Znalezione id: " + foundImages.toString());
+
+        if(foundImages.isPresent()){
+            return foundImages.get();
+        }
+
+        throw new RuntimeException("Images not found for point with id: " + pointID);
+
+    }
 }
