@@ -39,7 +39,6 @@ export default function ViewPoint(){
         console.log("utworono: ", result.data.createdAt)
 
         
-
         setPoint(result.data);
     }
 
@@ -53,8 +52,50 @@ export default function ViewPoint(){
         const minutes = timestamp[4]
     
         return `${year}-${month}-${day} ${hours}:${minutes}`;
-      };
+    };
 
+    const handleDownloadImages = async () => {
+
+        console.log("proba pobrania zdjec")
+
+        try {
+            const response = await axios.get(`http://localhost:8080/geodataapp/images/frompoint/${id}`, {
+            responseType: 'blob',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            
+        })
+
+
+        const blob = new Blob([response.data], { type: 'application/zip' });
+        const url = window.URL.createObjectURL(blob);
+
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `zdjecia_dla_puntu_${point.title}.zip`;
+        a.style.display = 'none';
+
+
+        document.body.appendChild(a);
+
+
+        a.click();
+
+
+        window.URL.revokeObjectURL(url);
+
+
+        document.body.removeChild(a);
+        console.log("powinno byc ok")
+        
+        }catch (err) {
+            console.error("Błąd podczas pobirania zdcjeć:", err);
+        }
+
+
+    };
     
 
     return(
@@ -96,8 +137,7 @@ export default function ViewPoint(){
 
                             <li className="list-group-item">
                                 <b>Utworzono: </b>
-                                {formatDate (point.createdAt)}
-
+                                {formatDate (point.createdAt)} 
                             </li>
 
                         
@@ -105,6 +145,7 @@ export default function ViewPoint(){
                     </div>
                 </div>
 
+                <button type='button' className='btn btn-primary linkButton' onClick={handleDownloadImages}>Pobierz zdjecia dla punktu</button>
                 <Link className="btn btn-primary my-2" to={"/User"}> Powrót do menu</Link>
                 </div>
             </div>
