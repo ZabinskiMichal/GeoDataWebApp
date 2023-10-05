@@ -14,8 +14,6 @@ public interface ImageService {
 
     byte[] downloadImage(Long id);
 
-    List<byte[]> findImagesByPointId(Long pointID);
-
     List<Long> getImagesIdForPoint(Long pointID);
 
 }

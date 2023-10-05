@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ImageServiceImpl implements ImageService{
+public class ImageServiceImpl implements ImageService {
 
 
     private ImageRepository imageRepository;
@@ -33,7 +33,7 @@ public class ImageServiceImpl implements ImageService{
         Point point = pointRepository.findById(pointID)
                 .orElseThrow(() -> new RuntimeException("Point with id: " + pointID + " not found"));
 
-        for(MultipartFile file : files){
+        for (MultipartFile file : files) {
 
             ImageData imageData = imageRepository.save(ImageData.builder()
                     .name(file.getOriginalFilename())
@@ -49,8 +49,6 @@ public class ImageServiceImpl implements ImageService{
         return "Zapisywanie nie powiadło sie";
     }
 
-
-
     @Override
     public byte[] downloadImage(Long id) {
         Optional<ImageData> dbImage = imageRepository.findById(id);
@@ -60,10 +58,6 @@ public class ImageServiceImpl implements ImageService{
         return images;
     }
 
-    @Override
-    public List<byte[]> findImagesByPointId(Long pointID) {
-        return null;
-    }
 
     @Override
     public List<Long> getImagesIdForPoint(Long pointID) {
@@ -74,7 +68,7 @@ public class ImageServiceImpl implements ImageService{
 
         System.out.println("Znalezione id: " + foundImages.toString());
 
-        if(foundImages.isPresent()){
+        if (foundImages.isPresent()) {
             return foundImages.get();
         }
 
