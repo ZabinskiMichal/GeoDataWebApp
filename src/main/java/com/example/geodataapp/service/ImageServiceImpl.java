@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ImageServiceImpl implements ImageService{
+public class ImageServiceImpl implements ImageService {
 
 
     private ImageRepository imageRepository;
@@ -33,7 +33,7 @@ public class ImageServiceImpl implements ImageService{
         Point point = pointRepository.findById(pointID)
                 .orElseThrow(() -> new RuntimeException("Point with id: " + pointID + " not found"));
 
-        for(MultipartFile file : files){
+        for (MultipartFile file : files) {
 
             ImageData imageData = imageRepository.save(ImageData.builder()
                     .name(file.getOriginalFilename())
@@ -43,20 +43,8 @@ public class ImageServiceImpl implements ImageService{
                     .build());
             System.out.println("Zapisywanie: " + file.getOriginalFilename());
 
-//            if(imageData != null){
-//                return "Pomyślnie zapisano plik o nazwie: " + file.getOriginalFilename();
-//            }
-
         }
 
-//        ImageData imageData = imageRepository.save(ImageData.builder()
-//                .name(file.getOriginalFilename())
-//                .type(file.getContentType())
-//                .imageData(ImageUtils.compressImage(file.getBytes())).build());
-
-//        if(imageData != null){
-//            return "Pomyślnie zapisano plik o nazwie: " + file.getOriginalFilename();
-//        }
 
         return "Zapisywanie nie powiadło sie";
     }
@@ -68,5 +56,23 @@ public class ImageServiceImpl implements ImageService{
         byte[] images = ImageUtils.decompressImage(dbImage.get().getImageData());
 
         return images;
+    }
+
+
+    @Override
+    public List<Long> getImagesIdForPoint(Long pointID) {
+
+        System.out.println("Szukanie id");
+
+        Optional<List<Long>> foundImages = imageRepository.getImagesIdByPointId(pointID);
+
+        System.out.println("Znalezione id: " + foundImages.toString());
+
+        if (foundImages.isPresent()) {
+            return foundImages.get();
+        }
+
+        throw new RuntimeException("Images not found for point with id: " + pointID);
+
     }
 }

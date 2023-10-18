@@ -55,7 +55,6 @@ public class PointController {
 
     @PostMapping("/create-with-images")
     public ResponseEntity<PointDto> createPointWithImages(
-//            @RequestBody PointDto pointDto,
             @ModelAttribute PointDto pointDto,
             @RequestParam("image") List<MultipartFile> files) throws IOException {
 

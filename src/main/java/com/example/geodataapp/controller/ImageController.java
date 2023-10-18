@@ -1,9 +1,7 @@
 package com.example.geodataapp.controller;
 
-
-import com.example.geodataapp.service.ImageService;
 import com.example.geodataapp.service.ImageServiceImpl;
-import jakarta.websocket.server.PathParam;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RestController
 @RequestMapping("/geodataapp/images")
@@ -36,12 +37,49 @@ public class ImageController {
                 .body("Dodano pliki");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> downloadImage(@PathVariable Long id){
-        byte[] imageData = imageService.downloadImage(id);
+    @GetMapping("/{pointId}")
+    public ResponseEntity<List<byte[]>> downloadImages(@PathVariable Long pointId){
+
+        List<Long> idsToDownload = List.of(15L, 16L);
+        List<byte[]> images = new ArrayList<>();
+
+        for (Long id : idsToDownload){
+            byte[] imageData = imageService.downloadImage(id);
+            images.add(imageData);
+        }
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
+                .body(images);
     }
+
+
+    @GetMapping("/frompoint/{pointID}")
+    public void downloadImages(HttpServletResponse response,
+                               @PathVariable Long pointID) throws IOException {
+//        List<Long> imageIds = Arrays.asList(18L, 19L); // Numery obrazów do pobrania
+        List<Long> imageIds = imageService.getImagesIdForPoint(pointID); // Numery obrazów do pobrania
+
+        response.setContentType("application/zip");
+        response.setHeader("Content-Disposition", "attachment;filename=Images.zip");
+
+        try (ZipOutputStream outputStream = new ZipOutputStream(response.getOutputStream())) {
+            for (Long id : imageIds) {
+                byte[] imageData = imageService.downloadImage(id);
+
+                String contentType = "image/png";  // Domyślny Content-Type
+
+                String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png"; // Przykład rozszerzenia.
+
+                String entryName = "image_" + id + "." + fileExtension;
+
+                outputStream.putNextEntry(new ZipEntry(entryName));
+                outputStream.write(imageData);
+                outputStream.closeEntry();
+            }
+        }
+
+        response.setStatus(HttpStatus.OK.value()); // 200
+    }
+
 }
