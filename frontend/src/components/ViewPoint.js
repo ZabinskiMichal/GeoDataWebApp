@@ -72,7 +72,7 @@ export default function ViewPoint(){
         const url = window.URL.createObjectURL(blob);
 
 
-        const a = document.createElement('a');
+        const a = document.createElement('a'); 
         a.href = url;
         a.download = `zdjecia_dla_puntu_${point.title}.zip`;
         a.style.display = 'none';
