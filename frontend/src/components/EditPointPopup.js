@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export default function EditPointPopup({ marker, handleUpdate, cancelEdit }) {
   const [editedTitle, setEditedTitle] = useState(marker.title);
   const [editedDescription, setEditedDescription] = useState(marker.description);
+  const [selectedImages, setSelectedImages] = useState([]); 
 
 
   const handleSubmit = (e) => {
@@ -14,8 +15,14 @@ export default function EditPointPopup({ marker, handleUpdate, cancelEdit }) {
       
     };
     
-    handleUpdate(updatedMarker);
+    handleUpdate(updatedMarker, selectedImages);
+    
   };
+
+    const handleFileInputChange = (e) => {
+      const files = e.target.files;
+      setSelectedImages([...selectedImages, ...files]);
+    };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -45,6 +52,15 @@ export default function EditPointPopup({ marker, handleUpdate, cancelEdit }) {
         cols={40}
         style={{ resize: 'vertical' }}
       />
+
+      <label htmlFor='fileInput'>Wybierz zdjęcia:</label>
+        <input
+          type='file'
+          id='fileInput'
+          accept='image/*'
+          multiple 
+          onChange={handleFileInputChange} 
+        />
 
       <br />
 

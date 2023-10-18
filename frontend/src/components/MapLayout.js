@@ -27,6 +27,8 @@ export default function MapLayout() {
   const token = auth.accessToken;
 
 
+
+
  
   const loadPoints = async () => {
     try {
@@ -76,6 +78,8 @@ export default function MapLayout() {
     const[selectedPosition, setSelectedPosition] = useState([0,0]);
     const[title, setTitle] = useState('');
     const[description, setDescription] = useState('');
+    const [selectedImages, setSelectedImages] = useState([]); 
+
 
 
     const map = useMapEvents({
@@ -92,9 +96,11 @@ export default function MapLayout() {
       e.preventDefault();
 
 
+      if (selectedImages.length === 0) { 
+        console.log("nie wybrano zdjec")
+
       try{
-          // przeslanie requesta do backendu
-          const response = await axios.post(CREATE_POINT_URL, 
+         const response = await axios.post(CREATE_POINT_URL, 
               JSON.stringify({
                 title: title, 
                 longitude: selectedPosition[0], 
@@ -116,7 +122,7 @@ export default function MapLayout() {
 
 
           //clear input fields from registration form - we might do it
-      }catch (err){
+          }catch (err){
 
           // if(!err?.response) {
           //     setErrMsg("Brak odpowiedzi serwera");
@@ -128,9 +134,55 @@ export default function MapLayout() {
           // }
 
           // errRef.current.focus();
+        }
 
+      }else if (selectedImages.length !== 0){
+
+        try{
+
+          const formData = new FormData();
+
+          formData.append('title', title);
+          formData.append('longitude', selectedPosition[0]);
+          formData.append('latitude', selectedPosition[1]);
+          formData.append('description', description);
+
+          // Dodaj wybrane pliki do formData
+          for (let i = 0; i < selectedImages.length; i++) {
+            formData.append('image', selectedImages[i]);
+          }
+
+          const response = await axios.post("points/create-with-images", formData, {
+
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            //axios sam dobiera odpowieni content type
+
+          },
+
+    });
+ 
+           console.log("odpowiedz od serwera:");
+           console.log(response.data);
+ 
+           loadPoints();
+ 
+           //clear input fields from registration form - we might do it
+           }catch (err){
+
+            console.log(err);
+         }
+
+
+      }else{
+        console.log("Cos sie wysypało");
       }
     }
+
+    const handleFileInputChange = (e) => {
+      const files = e.target.files;
+      setSelectedImages([...selectedImages, ...files]);
+    };
     
     return (
 
@@ -170,7 +222,15 @@ export default function MapLayout() {
                   style={{ resize: "vertical" }} 
                 />
 
-                <br />
+                <label htmlFor='fileInput'>Wybierz zdjęcia:</label>
+                      <input
+                        type='file'
+                        id='fileInput'
+                        accept='image/*'
+                        multiple 
+                        onChange={handleFileInputChange} 
+                      />
+                  <br />
                 
                 <button className='btn btn-outline-success'>Stwórz punkt</button>
 
@@ -197,14 +257,18 @@ export default function MapLayout() {
   };
 
 
-
-  const handleUpdate = async (updatedMarker) => {
+  const handleUpdate = async (updatedMarker, selectedImages) => {
 
     try {
       const { id, title, description, longitude, latitude } = updatedMarker;
 
-      const response = await axios.put(`/points/update/${updatedMarker.id}`, {
+      const formData = new FormData();
 
+      for (let i = 0; i < selectedImages.length; i++) {
+        formData.append('image', selectedImages[i]);
+      }
+
+      const response = await axios.put(`/points/update/${updatedMarker.id}`, {
         title: title,
         description: description,
         longitude: longitude, 
@@ -215,11 +279,16 @@ export default function MapLayout() {
         }
       });
 
+      const response2 = await axios.post(`/images/upload/${updatedMarker.id}`, formData,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
       setEditingMarker(null);
       cancelEdit();
       loadPoints();
-
-
 
     } catch  (error) {
         console.error(error);

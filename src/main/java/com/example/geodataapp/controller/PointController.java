@@ -1,8 +1,9 @@
 package com.example.geodataapp.controller;
 
 import com.example.geodataapp.dto.PointDto;
-import com.example.geodataapp.model.Path;
 import com.example.geodataapp.security.JWTAuthenticationFilter;
+import com.example.geodataapp.service.ImageService;
+import com.example.geodataapp.service.ImageServiceImpl;
 import com.example.geodataapp.service.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -11,9 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -22,14 +23,16 @@ import java.util.List;
 public class PointController {
 
     private PointServiceImpl pointService;
-
     private JWTAuthenticationFilter jwtAuthenticationFilter;
+    private ImageServiceImpl imageService;
 
     @Autowired
     public PointController(PointServiceImpl pointService,
-                           JWTAuthenticationFilter jwtAuthenticationFilter) {
+                           JWTAuthenticationFilter jwtAuthenticationFilter,
+                           ImageServiceImpl imageService) {
         this.pointService = pointService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.imageService = imageService;
     }
 
     @GetMapping("/all")
@@ -47,6 +50,21 @@ public class PointController {
     @PostMapping("/create")
     public ResponseEntity<PointDto> createPoint(@RequestBody PointDto pointDto){
         return new ResponseEntity<>(pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/create-with-images")
+    public ResponseEntity<PointDto> createPointWithImages(
+            @ModelAttribute PointDto pointDto,
+            @RequestParam("image") List<MultipartFile> files) throws IOException {
+
+        PointDto createdPoint = pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto);
+
+        Long pointId = createdPoint.getId();
+
+        imageService.uploadImage(files, pointId);
+
+        return new ResponseEntity<>(createdPoint, HttpStatus.OK);
     }
 
 

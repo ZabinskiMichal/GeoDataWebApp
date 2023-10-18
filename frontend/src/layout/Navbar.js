@@ -17,9 +17,8 @@ export default function Navbar() {
     console.log("proba generowania raportu")
 
     try {
-      const response = await axios.get("/points/generateraport", 
-      { responseType: 'blob',
-
+      const response = await axios.get("/points/generateraport", { 
+        responseType: 'blob',
         headers: {
           Authorization: `Bearer ${token}`,
         }
