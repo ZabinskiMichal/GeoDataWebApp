@@ -12,8 +12,6 @@ public interface ImageRepository extends JpaRepository<ImageData, Long> {
 
     Optional<ImageData> findById(Long id);
 
-
-//    @Query("SELECT i FROM ImageData i WHERE i.point.appUser.id = :pointId")
     @Query("SELECT i FROM ImageData i WHERE i.point.id = :pointId")
     List<ImageData> findImagesByPointId(@Param("pointId") Long pointId);
 

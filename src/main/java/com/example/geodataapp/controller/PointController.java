@@ -67,13 +67,11 @@ public class PointController {
         return new ResponseEntity<>(createdPoint, HttpStatus.OK);
     }
 
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePoint(@PathVariable("id") long pointId){
         pointService.deletePoint(pointId, jwtAuthenticationFilter.getUserId());
         return new ResponseEntity<>("Point with id:" + pointId + " deleted successfully!", HttpStatus.OK);
     }
-
 
     @GetMapping("/generateraport")
     public ResponseEntity<ByteArrayResource> generateRaport() throws IOException {

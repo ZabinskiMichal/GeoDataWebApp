@@ -53,12 +53,10 @@ public class ImageController {
                 .body(images);
     }
 
-
     @GetMapping("/frompoint/{pointID}")
     public void downloadImages(HttpServletResponse response,
                                @PathVariable Long pointID) throws IOException {
-//        List<Long> imageIds = Arrays.asList(18L, 19L); // Numery obrazów do pobrania
-        List<Long> imageIds = imageService.getImagesIdForPoint(pointID); // Numery obrazów do pobrania
+        List<Long> imageIds = imageService.getImagesIdForPoint(pointID);
 
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment;filename=Images.zip");
@@ -69,7 +67,7 @@ public class ImageController {
 
                 String contentType = "image/png";  // Domyślny Content-Type
 
-                String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png"; // Przykład rozszerzenia.
+                String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png";
 
                 String entryName = "image_" + id + "." + fileExtension;
 

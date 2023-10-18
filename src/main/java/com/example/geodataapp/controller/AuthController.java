@@ -83,7 +83,6 @@ public class AuthController {
                         loginDto.getEmail(),
                         loginDto.getPassword()));
 
-
         Optional<Long> userId = userRepository.findDistinctIdByEmail(loginDto.getEmail());
         //tu powinna byc jeszcze walicajca, w ktorej uzyjemy metody .isPresent()
 
@@ -92,17 +91,10 @@ public class AuthController {
         String token = jwtGenerator.generateToken(authentication, userId.get());
 
         //temporary list of Roles
-//        List<Role> roles = List.of(new Role(1L, "USER"));
         List<String> roles = List.of("USER");
 
 //        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
         return new ResponseEntity<>(new AuthResponseDTO(token, roles), HttpStatus.OK);
     }
-
-
-
-
-
-
 }
 

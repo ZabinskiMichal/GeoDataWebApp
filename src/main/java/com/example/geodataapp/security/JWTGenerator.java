@@ -51,6 +51,7 @@ public class JWTGenerator {
     }
 
 
+
     public boolean validateToken(String token){
         try {
             Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJws(token);

@@ -15,11 +15,6 @@ public class AuthResponseDTO {
     private List<String> roles;
 
 
-//    public AuthResponseDTO(String accessToken, List<Role> roles) {
-//        this.accessToken = accessToken;
-//        this.roles = roles;
-//    }
-
     public AuthResponseDTO(String accessToken, List<String> roles) {
         this.accessToken = accessToken;
         this.roles = roles;
