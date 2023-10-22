@@ -2,11 +2,9 @@ package com.example.geodataapp.controller;
 
 import com.example.geodataapp.dto.PointDto;
 import com.example.geodataapp.security.JWTAuthenticationFilter;
-import com.example.geodataapp.service.ImageService;
 import com.example.geodataapp.service.ImageServiceImpl;
 import com.example.geodataapp.service.PointServiceImpl;
 import com.example.geodataapp.service.S3ImageServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -58,8 +56,25 @@ public class PointController {
     }
 
 
+
+    //To DB
+//    @PostMapping("/create-with-images")
+//    public ResponseEntity<PointDto> createPointWithImagesAndSaveToDB(
+//            @ModelAttribute PointDto pointDto,
+//            @RequestParam("image") List<MultipartFile> files) throws IOException {
+//
+//        PointDto createdPoint = pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto);
+//
+//        Long pointId = createdPoint.getId();
+//
+//        imageService.uploadImage(files, pointId);
+//
+//        return new ResponseEntity<>(createdPoint, HttpStatus.OK);
+//    }
+
+    //To S3
     @PostMapping("/create-with-images")
-    public ResponseEntity<PointDto> createPointWithImages(
+    public ResponseEntity<PointDto> createPointWithImagesAndSaveToS3(
             @ModelAttribute PointDto pointDto,
             @RequestParam("image") List<MultipartFile> files) throws IOException {
 
@@ -67,10 +82,6 @@ public class PointController {
 
         Long pointId = createdPoint.getId();
 
-        //byte[] in DB
-        imageService.uploadImage(files, pointId);
-
-        //to S3
         s3ImageService.uploadFile(files, pointId);
 
         return new ResponseEntity<>(createdPoint, HttpStatus.OK);

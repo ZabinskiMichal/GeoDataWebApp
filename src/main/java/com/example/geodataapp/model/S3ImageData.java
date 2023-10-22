@@ -19,8 +19,6 @@ public class S3ImageData {
     private String name;
     private String type;
 
-    private String filePath;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "point_id")
     private Point point;

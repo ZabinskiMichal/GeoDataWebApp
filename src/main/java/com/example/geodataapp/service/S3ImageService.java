@@ -8,7 +8,7 @@ import java.util.List;
 public interface S3ImageService {
 
 
-    String uploadFile(List<MultipartFile> files, Long pointId);
+    String uploadFile(List<MultipartFile> files, Long pointID);
 
     byte[] downloadFile(String fileName);
 

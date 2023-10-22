@@ -27,37 +27,51 @@ public class ImageController {
         this.imageService = imageService;
     }
 
+
+    //add images to exisiting point
     @PostMapping("/upload/{point_id}")
     public ResponseEntity<?> uploadImage(@PathVariable("point_id") Long point_id,
                                          @RequestParam("image") List<MultipartFile> files) throws IOException {
-//        String uploadImage = imageService.uploadImage(files);
         imageService.uploadImage(files, point_id);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Dodano pliki");
     }
 
-    @GetMapping("/{pointId}")
-    public ResponseEntity<List<byte[]>> downloadImages(@PathVariable Long pointId){
 
-        List<Long> idsToDownload = List.of(15L, 16L);
-        List<byte[]> images = new ArrayList<>();
+//     Downloands images from db
+//    @GetMapping("/frompoint/{pointID}")
+//    public void downloadImages(HttpServletResponse response,
+//                               @PathVariable Long pointID) throws IOException {
+//        List<Long> imageIds = imageService.getImagesIdForPoint(pointID); // Numery obrazów do pobrania
+//
+//        response.setContentType("application/zip");
+//        response.setHeader("Content-Disposition", "attachment;filename=Images.zip");
+//
+//        try (ZipOutputStream outputStream = new ZipOutputStream(response.getOutputStream())) {
+//            for (Long id : imageIds) {
+//                byte[] imageData = imageService.downloadImage(id);
+//
+//                String contentType = "image/png";  // Domyślny Content-Type
+//
+//                String fileExtension = contentType.equals("image/jpeg") ? "jpg" : "png"; // Przykład rozszerzenia.
+//
+//                String entryName = "image_" + id + "." + fileExtension;
+//
+//                outputStream.putNextEntry(new ZipEntry(entryName));
+//                outputStream.write(imageData);
+//                outputStream.closeEntry();
+//            }
+//        }
+//
+//        response.setStatus(HttpStatus.OK.value()); // 200
+//    }
 
-        for (Long id : idsToDownload){
-            byte[] imageData = imageService.downloadImage(id);
-            images.add(imageData);
-        }
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(images);
-    }
-
-
+//    Downloads images from S3 - not implemented yet
     @GetMapping("/frompoint/{pointID}")
     public void downloadImages(HttpServletResponse response,
                                @PathVariable Long pointID) throws IOException {
-//        List<Long> imageIds = Arrays.asList(18L, 19L); // Numery obrazów do pobrania
         List<Long> imageIds = imageService.getImagesIdForPoint(pointID); // Numery obrazów do pobrania
 
         response.setContentType("application/zip");
@@ -81,5 +95,4 @@ public class ImageController {
 
         response.setStatus(HttpStatus.OK.value()); // 200
     }
-
 }
