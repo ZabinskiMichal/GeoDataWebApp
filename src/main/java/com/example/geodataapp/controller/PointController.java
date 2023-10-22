@@ -5,6 +5,7 @@ import com.example.geodataapp.security.JWTAuthenticationFilter;
 import com.example.geodataapp.service.ImageService;
 import com.example.geodataapp.service.ImageServiceImpl;
 import com.example.geodataapp.service.PointServiceImpl;
+import com.example.geodataapp.service.S3ImageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -25,15 +26,19 @@ public class PointController {
     private PointServiceImpl pointService;
     private JWTAuthenticationFilter jwtAuthenticationFilter;
     private ImageServiceImpl imageService;
+    private S3ImageServiceImpl s3ImageService;
 
-    @Autowired
+
     public PointController(PointServiceImpl pointService,
                            JWTAuthenticationFilter jwtAuthenticationFilter,
-                           ImageServiceImpl imageService) {
+                           ImageServiceImpl imageService,
+                           S3ImageServiceImpl s3ImageService) {
         this.pointService = pointService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.imageService = imageService;
+        this.s3ImageService = s3ImageService;
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<PointDto>> getPoints(){
@@ -62,7 +67,11 @@ public class PointController {
 
         Long pointId = createdPoint.getId();
 
+        //byte[] in DB
         imageService.uploadImage(files, pointId);
+
+        //to S3
+        s3ImageService.uploadFile(files, pointId);
 
         return new ResponseEntity<>(createdPoint, HttpStatus.OK);
     }
