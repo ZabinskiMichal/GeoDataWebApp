@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface S3ImageService {
 
-    String uploadImageToS3(List<MultipartFile> files, Long pointID) throws IOException;
+
+    String uploadFile(List<MultipartFile> files, Long pointId);
+
+    byte[] downloadFile(String fileName);
 
 }
