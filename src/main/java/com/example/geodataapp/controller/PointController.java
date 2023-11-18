@@ -58,23 +58,8 @@ public class PointController {
 
 
     //To DB
-//    @PostMapping("/create-with-images")
-//    public ResponseEntity<PointDto> createPointWithImagesAndSaveToDB(
-//            @ModelAttribute PointDto pointDto,
-//            @RequestParam("image") List<MultipartFile> files) throws IOException {
-//
-//        PointDto createdPoint = pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto);
-//
-//        Long pointId = createdPoint.getId();
-//
-//        imageService.uploadImage(files, pointId);
-//
-//        return new ResponseEntity<>(createdPoint, HttpStatus.OK);
-//    }
-
-    //To S3
     @PostMapping("/create-with-images")
-    public ResponseEntity<PointDto> createPointWithImagesAndSaveToS3(
+    public ResponseEntity<PointDto> createPointWithImagesAndSaveToDB(
             @ModelAttribute PointDto pointDto,
             @RequestParam("image") List<MultipartFile> files) throws IOException {
 
@@ -82,10 +67,25 @@ public class PointController {
 
         Long pointId = createdPoint.getId();
 
-        s3ImageService.uploadFile(files, pointId);
+        imageService.uploadImage(files, pointId);
 
         return new ResponseEntity<>(createdPoint, HttpStatus.OK);
     }
+
+//    //To S3
+//    @PostMapping("/create-with-images")
+//    public ResponseEntity<PointDto> createPointWithImagesAndSaveToS3(
+//            @ModelAttribute PointDto pointDto,
+//            @RequestParam("image") List<MultipartFile> files) throws IOException {
+//
+//        PointDto createdPoint = pointService.createPoint(jwtAuthenticationFilter.getUserId(), pointDto);
+//
+//        Long pointId = createdPoint.getId();
+//
+//        s3ImageService.uploadFile(files, pointId);
+//
+//        return new ResponseEntity<>(createdPoint, HttpStatus.OK);
+//    }
 
 
     @DeleteMapping("/delete/{id}")
