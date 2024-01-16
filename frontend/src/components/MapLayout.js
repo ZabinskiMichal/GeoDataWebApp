@@ -268,24 +268,27 @@ export default function MapLayout() {
         formData.append('image', selectedImages[i]);
       }
 
-      const response = await axios.put(`/points/update/${updatedMarker.id}`, {
-        title: title,
-        description: description,
-        longitude: longitude, 
-        latitude: latitude,   
-      },{
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      if (selectedImages.length == 0){
+        const response = await axios.put(`/points/update/${updatedMarker.id}`, {
+          title: title,
+          description: description,
+          longitude: longitude, 
+          latitude: latitude,   
+        },{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      }else{
 
-      const response2 = await axios.post(`/images/upload/${updatedMarker.id}`, formData,{
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+        const response2 = await axios.post(`/images/upload/${updatedMarker.id}`, formData,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
 
+      }
       setEditingMarker(null);
       cancelEdit();
       loadPoints();
