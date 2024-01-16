@@ -31,7 +31,7 @@ export default function Home() {
     <div className='home-component'>
 
     <h3 style={{ color: 'white' }}>
-      Wnieś swoją pracę w terenie na wyższy level 
+      Wznieś swoją pracę w terenie na wyższy level 
     </h3>
 
     <br />

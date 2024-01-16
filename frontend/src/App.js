@@ -32,7 +32,6 @@ function App() {
         {/* <Route path="linkpage" element={<LinkPage />} /> */}
         {/* <Route path="unauthorized" element={<Unauthorized />} /> */}
 
-
         <Route path='/' element={<Home />} />
 
         <Route element={<RequireAuth allowedRoles={["USER"]}/>}>
@@ -56,9 +55,7 @@ function App() {
         <Route path='*' element={<Missing />} />
 
 
-
     </Routes>
-
 
 
     
